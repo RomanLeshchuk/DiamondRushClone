@@ -2,7 +2,6 @@
 
 #include "Entities.h"
 #include "EventsHandler.h"
-// #include <chrono>
 
 World::World() = default;
 
@@ -30,10 +29,10 @@ World::World(
 
 	m_mapSize = { mapImage->width, mapImage->height };
 
-	m_matrix = new Cell[m_mapSize.x * m_mapSize.y];
-	for (int x = 0; x < m_mapSize.x; x++)
+	m_matrix.reserve(m_mapSize.x * m_mapSize.y);
+	for (int y = 0; y < m_mapSize.y; y++)
 	{
-		for (int y = 0; y < m_mapSize.y; y++)
+		for (int x = 0; x < m_mapSize.x; x++)
 		{
 			int i = y * m_mapSize.x + x;
 			const Color& color = colors[i];
@@ -71,13 +70,13 @@ World::World(
 			}
 			else
 			{
-				m_matrix[i] = Cell{};
+				m_matrix.emplace_back();
 				continue;
 			}
 
 			Cell cell{};
-			cell.emplace(entity->getType(), std::move(entity));
-			m_matrix[i] = std::move(cell);
+			cell.add(std::move(entity));
+			m_matrix.push_back(std::move(cell));
 		}
 	}
 
@@ -86,30 +85,37 @@ World::World(
 
 void World::update()
 {
+	std::vector<Entity*> updateContainer{};
+
 	for (int y = std::min(viewportCoords.y + updateSize.y, m_mapSize.y - 1); y >= std::max(viewportCoords.y - updateSize.y, 0); y--)
 	{
 		for (int x = std::max(viewportCoords.x - updateSize.x, 0); x < std::min(viewportCoords.x + updateSize.x + 1, m_mapSize.x); x++)
 		{
-			for (const std::pair<const Entity::Type, std::unique_ptr<Entity>>& entityPair : this->getCell({ x, y }))
+			for (const std::unique_ptr<Entity>& entityPtr : this->getCell({ x, y }))
 			{
-				if (entityPair.second->getType() != Entity::Type::PLAYER)
+				if (entityPtr->getType() != Entity::Type::PLAYER)
 				{
-					entityPair.second->update();
+					updateContainer.push_back(entityPtr.get());
 				}
 			}
 		}
 	}
 
-	player->update();
+	updateContainer.push_back(player);
 
-	for (int y = std::min(viewportCoords.y + updateSize.y, m_mapSize.y - 1); y >= std::max(viewportCoords.y - updateSize.y, 0); y--)
+	for (Entity* entity : updateContainer)
 	{
-		for (int x = std::max(viewportCoords.x - updateSize.x, 0); x < std::min(viewportCoords.x + updateSize.x + 1, m_mapSize.x); x++)
+		if (entity)
 		{
-			for (const std::pair<const Entity::Type, std::unique_ptr<Entity>>& entityPair : this->getCell({ x, y }))
-			{
-				entityPair.second->resetWasUpdated();
-			}
+			entity->update();
+		}
+	}
+
+	for (Entity* entity : updateContainer)
+	{
+		if (entity)
+		{
+			entity->resetWasUpdated();
 		}
 	}
 
@@ -127,26 +133,26 @@ void World::draw()
 		WHITE
 	);
 
-	std::vector<Entity*> sortedEntities{};
+	std::vector<Entity*> drawContainer{};
 
 	for (int y = std::min(viewportCoords.y + viewportSize.y + 1, m_mapSize.y - 1); y >= std::max(viewportCoords.y - viewportSize.y - 1, 0); y--)
 	{
 		for (int x = std::max(viewportCoords.x - viewportSize.x - 1, 0); x < std::min(viewportCoords.x + viewportSize.x + 2, m_mapSize.x); x++)
 		{
-			for (const std::pair<const Entity::Type, std::unique_ptr<Entity>>& entityPair : this->getCell({ x, y }))
+			for (const std::unique_ptr<Entity>& entityPtr : this->getCell({ x, y }))
 			{
-				sortedEntities.push_back(entityPair.second.get());
+				drawContainer.push_back(entityPtr.get());
 			}
 		}
 	}
 
-	std::sort(sortedEntities.begin(), sortedEntities.end(), [](const Entity* firstEntity, const Entity* secondEntity) -> bool
+	std::sort(drawContainer.begin(), drawContainer.end(), [](const Entity* firstEntity, const Entity* secondEntity) -> bool
 		{
 			return firstEntity->getType() < secondEntity->getType();
 		}
 	);
 
-	for (Entity* entity : sortedEntities)
+	for (Entity* entity : drawContainer)
 	{
 		entity->draw();
 	}
@@ -154,12 +160,7 @@ void World::draw()
 	currentFrame = (currentFrame + 1) % framesPerMove;
 }
 
-World::Cell& World::getCell(const Coords& cellPos)
+Cell& World::getCell(const Coords& cellPos)
 {
 	return m_matrix[cellPos.y * m_mapSize.x + cellPos.x];
-}
-
-World::~World()
-{
-	delete[] m_matrix;
 }

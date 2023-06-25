@@ -35,7 +35,8 @@ void Entity::destroy()
 void Entity::replace(std::unique_ptr<Entity> newEntity)
 {
 	newEntity->update();
-	world->getCell(newEntity->coords).insert_or_assign(newEntity->getType(), std::move(newEntity));
+	Coords newEntityCoords = newEntity->coords;
+	world->getCell(newEntityCoords).add(std::move(newEntity));
 	this->destroy();
 }
 
@@ -181,8 +182,8 @@ void MovableEntity::move()
 		return;
 	}
 
-	World::Cell::iterator prevIt = world->getCell(coords).find(type);
-	world->getCell(coords + moveVec).insert_or_assign(prevIt->first, std::move(prevIt->second));
+	Cell::iterator prevIt = world->getCell(coords).find(type);
+	world->getCell(coords + moveVec).add(std::move(*prevIt));
 	world->getCell(coords).erase(prevIt);
 
 	coords += moveVec;
@@ -192,12 +193,12 @@ std::vector<Entity*> MovableEntity::getSolidEntitiesInOffsetCell(const Coords& o
 {
 	std::vector<Entity*> solidEntities{};
 
-	World::Cell& targetCell = world->getCell(coords + offset);
-	for (World::Cell::iterator it = targetCell.begin(); it != targetCell.end(); it++)
+	Cell& targetCell = world->getCell(coords + offset);
+	for (const std::unique_ptr<Entity>& entityPtr : targetCell)
 	{
-		if (it->first < Entity::Type::BUSH_PARTICLES)
+		if (entityPtr->getType() < Entity::Type::BUSH_PARTICLES)
 		{
-			solidEntities.push_back(it->second.get());
+			solidEntities.push_back(entityPtr.get());
 		}
 	}
 
@@ -213,14 +214,14 @@ void SmoothlyMovableEntity::move()
 		return;
 	}
 
-	World::Cell::iterator prevIt = world->getCell(coords).find(type);
-	world->getCell(coords + moveVec).insert_or_assign(prevIt->first, std::move(prevIt->second));
+	Cell::iterator prevIt = world->getCell(coords).find(type);
+	world->getCell(coords + moveVec).add(std::move(*prevIt));
 	world->getCell(coords).erase(prevIt);
 
 	std::unique_ptr<Shadow> entityShadow = std::make_unique<Shadow>(world, coords, this);
 	entityShadow->update();
 	shadow = entityShadow.get();
-	world->getCell(coords).insert_or_assign(entityShadow->getType(), std::move(entityShadow));
+	world->getCell(coords).add(std::move(entityShadow));
 
 	coords += moveVec;
 }
@@ -229,21 +230,21 @@ std::vector<Entity*> SmoothlyMovableEntity::getSolidEntitiesInOffsetCell(const C
 {
 	std::vector<Entity*> solidEntities{};
 
-	World::Cell& targetCell = world->getCell(coords + offset);
-	for (World::Cell::iterator it = targetCell.begin(); it != targetCell.end(); it++)
+	Cell& targetCell = world->getCell(coords + offset);
+	for (const std::unique_ptr<Entity>& entityPtr : targetCell)
 	{
-		if (it->first < Entity::Type::BUSH_PARTICLES)
+		if (entityPtr->getType() < Entity::Type::BUSH_PARTICLES)
 		{
-			if (it->first == Entity::Type::SHADOW)
+			if (entityPtr->getType() == Entity::Type::SHADOW)
 			{
-				Shadow* shadowTextured;
-				if (it->second->getType() == Entity::Type::SHADOW && (shadowTextured = dynamic_cast<Shadow*>(it->second.get())) && offset.isCovering(shadowTextured->shadowOf->moveVec))
+				Shadow* shadow = dynamic_cast<Shadow*>(entityPtr.get());
+				if (shadow->shadowOf->moveVec.isCovering(offset))
 				{
 					continue;
 				}
 			}
 
-			solidEntities.push_back(it->second.get());
+			solidEntities.push_back(entityPtr.get());
 		}
 	}
 
@@ -331,6 +332,11 @@ bool FallingEntity::push(char pushDirection)
 	this->move();
 
 	return true;
+}
+
+int FallingEntity::getFallHeight()
+{
+	return fallHeigth;
 }
 
 void FallingEntity::calcUpdateState()

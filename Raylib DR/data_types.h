@@ -231,7 +231,7 @@ struct Pair
 	constexpr bool isCovering(const Pair<U>& pair) const
 	{
 		const Pair<U> sameSignVec = *this - pair;
-		return (sameSignVec.x ? (x / sameSignVec.x > 0) : true) && (sameSignVec.y ? (y / sameSignVec.y > 0) : true);
+		return (x < 0) == (sameSignVec.x < 0) && (y < 0) == (sameSignVec.y < 0);
 	}
 };
 

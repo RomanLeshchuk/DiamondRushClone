@@ -183,6 +183,8 @@ public:
 
 	virtual bool push(char pushDirection);
 
+	int getFallHeight();
+
 protected:
 	virtual void calcUpdateState() override;
 	virtual void calcDrawState() override;

@@ -6,13 +6,12 @@
 #include <array>
 #include <string>
 #include <iostream>
-#include <memory>
 #include <map>
-#include <unordered_map>
 
 #include "data_types.h"
 #include "Entity.h"
 #include "Photos.h"
+#include "Cell.h"
 
 class EventsHandler;
 class PlayerEntity;
@@ -20,8 +19,6 @@ class PlayerEntity;
 class World
 {
 public:
-	using Cell = std::map<Entity::Type, std::unique_ptr<Entity>>;
-
 	World();
 	World(
 		const Photos& worldPhotos,
@@ -58,10 +55,8 @@ public:
 	int currentFrame = 0;
 	int currentMove = 0;
 
-	~World();
-
 private:
-	Cell* m_matrix;
+	std::vector<Cell> m_matrix{};
 
 	Coords m_mapSize{};
 

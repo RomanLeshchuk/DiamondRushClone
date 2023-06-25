@@ -1,1 +1,1 @@
-C:\Users\roman\Desktop\Raylib DR\Raylib DR\x64\Release\Raylib DR.vcxproj.CopyComplete
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\x64\Release\Raylib DR.vcxproj.CopyComplete

@@ -19,13 +19,19 @@ public:
 	void changeDiamonds(int value);
 	void changeHealth(int value);
 
+	Coords getPrevMoveVec();
+
+	FallingEntity* fallingAboveEntity = nullptr;
+
 protected:
 	virtual void calcUpdateState() override;
 
 private:
 	const Coords* m_moveEventSource;
 	Coords m_shift = { 0, 0 };
+
 	Coords m_viewDirection = Movement<1>::NONE;
+	Coords m_prevMoveVec = Movement<1>::NONE;
 
 	char m_pushingTurn = 0;
 

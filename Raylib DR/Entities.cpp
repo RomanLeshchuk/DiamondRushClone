@@ -34,8 +34,14 @@ void PlayerEntity::changeHealth(int value)
 	m_health += value;
 }
 
+Coords PlayerEntity::getPrevMoveVec()
+{
+	return m_prevMoveVec;
+}
+
 void PlayerEntity::calcUpdateState()
 {
+	m_prevMoveVec = moveVec;
 	moveVec = *m_moveEventSource;
 
 	if (moveVec == Movement<1>::NONE)
@@ -78,7 +84,8 @@ void PlayerEntity::calcUpdateState()
 
 	std::vector<Entity*> solidEntities = this->getSolidEntitiesInOffsetCell(moveVec);
 	
-	if (solidEntities.empty() || (solidEntities.size() == 1 && (solidEntities[0]->getType() == Entity::Type::BUSH || solidEntities[0]->getType() == Entity::Type::DIAMOND)))
+	if (solidEntities.empty() || (solidEntities.size() == 1
+		&& (solidEntities[0]->getType() == Entity::Type::BUSH || solidEntities[0]->getType() == Entity::Type::DIAMOND || solidEntities[0]->getType() == Entity::Type::SHADOW)))
 	{
 		if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::CALM]))
 		{
@@ -87,8 +94,6 @@ void PlayerEntity::calcUpdateState()
 
 		if (solidEntities.size() == 1)
 		{
-			Shadow* shadow;
-			DiamondEntity* diamond;
 			if (solidEntities[0]->getType() == Entity::Type::BUSH)
 			{
 				solidEntities[0]->replace(std::make_unique<BushParticlesEntity>(world, coords + moveVec));
@@ -98,11 +103,15 @@ void PlayerEntity::calcUpdateState()
 				solidEntities[0]->replace(std::make_unique<DiamondParticlesEntity>(world, coords + moveVec));
 				m_diamondsCollected++;
 			}
-			else if (solidEntities[0]->getType() == Entity::Type::SHADOW && (shadow = dynamic_cast<Shadow*>(solidEntities[0]))
-				&& shadow->shadowOf->getType() == Entity::Type::DIAMOND && moveVec.isCovering(shadow->shadowOf->moveVec))
+			else if (solidEntities[0]->getType() == Entity::Type::SHADOW)
 			{
-				shadow->shadowOf->replace(std::make_unique<DiamondParticlesEntity>(world, coords + moveVec));
-				m_diamondsCollected++;
+				Shadow* shadow = dynamic_cast<Shadow*>(solidEntities[0]);
+				if (shadow->shadowOf->getType() == Entity::Type::DIAMOND && !shadow->shadowOf->moveVec.isCovering(moveVec))
+				{
+					shadow->shadowOf->replace(std::make_unique<DiamondParticlesEntity>(world, coords + moveVec));
+					m_diamondsCollected++;
+				}
+
 			}
 		}
 
@@ -246,11 +255,10 @@ void RockEntity::calcUpdateState()
 {
 	if (fallHeigth > 1)
 	{
-		World::Cell& downCell = world->getCell(coords + Movement<1>::DOWN);
-		World::Cell::iterator shadowIt;
+		Cell& downCell = world->getCell(coords + Movement<1>::DOWN);
+		Cell::iterator shadowIt;
 		if (coords + Movement<1>::DOWN == world->player->coords
-			|| ((shadowIt = downCell.find(Entity::Type::SHADOW)) != downCell.end()
-				&& dynamic_cast<Shadow*>(shadowIt->second.get())->shadowOf->getType() == Entity::Type::PLAYER))
+			|| coords + Movement<1>::DOWN == world->player->coords - world->player->getPrevMoveVec())
 		{
 			world->player->changeHealth(-fallHeigth);
 		}
@@ -274,11 +282,10 @@ void DiamondEntity::calcUpdateState()
 {
 	if (fallHeigth)
 	{
-		World::Cell& downCell = world->getCell(coords + Movement<1>::DOWN);
-		World::Cell::iterator shadowIt;
+		Cell& downCell = world->getCell(coords + Movement<1>::DOWN);
+		Cell::iterator shadowIt;
 		if (coords + Movement<1>::DOWN == world->player->coords
-			|| ((shadowIt = downCell.find(Entity::Type::SHADOW)) != downCell.end()
-				&& dynamic_cast<Shadow*>(shadowIt->second.get())->shadowOf->getType() == Entity::Type::PLAYER))
+			|| coords + Movement<1>::DOWN == world->player->coords - world->player->getPrevMoveVec())
 		{
 			world->player->changeDiamonds(1);
 			this->replace(std::make_unique<DiamondParticlesEntity>(world, coords + Movement<1>::DOWN));
