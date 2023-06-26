@@ -91,18 +91,12 @@ class RockEntity final : public FallingRotatableEntity, public TexturedEntity
 {
 public:
 	RockEntity(World* world, const Coords& entityCoords);
-
-protected:
-	virtual void calcUpdateState() override;
 };
 
 class DiamondEntity final : public FallingRotatableEntity, public TexturedEntity
 {
 public:
 	DiamondEntity(World* world, const Coords& entityCoords);
-
-protected:
-	virtual void calcUpdateState() override;
 };
 
 class DiamondParticlesEntity final : public TemporaryAnimatedEntity

@@ -320,6 +320,22 @@ void TemporaryAnimatedEntity::update()
 
 FallingEntity::FallingEntity() = default;
 
+void FallingEntity::move()
+{
+	if (moveVec == Movement<1>::DOWN)
+	{
+		fallHeight++;
+		staggeringLeft = 0;
+		staggeringRight = 0;
+	}
+	else
+	{
+		fallHeight = 0;
+	}
+
+	this->SmoothlyMovableEntity::move();
+}
+
 bool FallingEntity::push(char pushDirection)
 {
 	if (moveVec != Movement<1>::NONE
@@ -336,7 +352,7 @@ bool FallingEntity::push(char pushDirection)
 
 int FallingEntity::getFallHeight()
 {
-	return fallHeigth;
+	return fallHeight;
 }
 
 void FallingEntity::calcUpdateState()
@@ -357,13 +373,16 @@ void FallingEntity::calcUpdateState()
 	if (downCellSolidEntities.empty())
 	{
 		moveVec = Movement<1>::DOWN;
-		fallHeigth++;
-		staggeringLeft = 0;
-		staggeringRight = 0;
+	}
+	else if (fallHeight
+		&& (coords + Movement<1>::DOWN == world->player->coords
+		|| coords + Movement<1>::DOWN == world->player->coords - world->player->getPrevMoveVec()))
+	{
+		world->player->fallingAboveEntity = this;
+		return;
 	}
 	else
 	{
-		fallHeigth = 0;
 		if (downCellSolidEntities.size() == 1 && downCellSolidEntities[0]->getType() >= Entity::Type::ROCK && downCellSolidEntities[0]->getType() <= Entity::Type::DIAMOND)
 		{
 			if (this->getSolidEntitiesInOffsetCell(Movement<1>::LEFT).empty() && this->getSolidEntitiesInOffsetCell({ -1, 1 }).empty())

@@ -57,7 +57,7 @@ void PlayerEntity::calcUpdateState()
 		return;
 	}
 
-	if (m_viewDirection != moveVec)
+	if (m_prevMoveVec == Movement<1>::NONE && m_viewDirection != moveVec)
 	{
 		m_viewDirection = moveVec;
 
@@ -81,6 +81,29 @@ void PlayerEntity::calcUpdateState()
 
 		return;
 	}
+
+	if (fallingAboveEntity)
+	{
+		if (moveVec != Movement<1>::DOWN)
+		{
+			if (fallingAboveEntity->getType() == Entity::Type::ROCK)
+			{
+				this->changeHealth(-fallingAboveEntity->getFallHeight());
+			}
+			else if (fallingAboveEntity->getType() == Entity::Type::DIAMOND)
+			{
+				this->changeDiamonds(1);
+				fallingAboveEntity->replace(std::make_unique<DiamondParticlesEntity>(world, coords));
+			}
+		}
+		if (fallingAboveEntity)
+		{
+			fallingAboveEntity->move();
+		}
+
+		fallingAboveEntity = nullptr;
+	}
+	
 
 	std::vector<Entity*> solidEntities = this->getSolidEntitiesInOffsetCell(moveVec);
 	
@@ -251,22 +274,6 @@ RockEntity::RockEntity(World* world, const Coords& entityCoords) :
 {
 }
 
-void RockEntity::calcUpdateState()
-{
-	if (fallHeigth > 1)
-	{
-		Cell& downCell = world->getCell(coords + Movement<1>::DOWN);
-		Cell::iterator shadowIt;
-		if (coords + Movement<1>::DOWN == world->player->coords
-			|| coords + Movement<1>::DOWN == world->player->coords - world->player->getPrevMoveVec())
-		{
-			world->player->changeHealth(-fallHeigth);
-		}
-	}
-
-	this->FallingRotatableEntity::calcUpdateState();
-}
-
 DiamondEntity::DiamondEntity(World* world, const Coords& entityCoords) :
 	Entity(world, entityCoords, Entity::Type::DIAMOND),
 	DrawableEntity(),
@@ -276,25 +283,6 @@ DiamondEntity::DiamondEntity(World* world, const Coords& entityCoords) :
 	SmoothlyMovableEntity(),
 	FallingEntity()
 {
-}
-
-void DiamondEntity::calcUpdateState()
-{
-	if (fallHeigth)
-	{
-		Cell& downCell = world->getCell(coords + Movement<1>::DOWN);
-		Cell::iterator shadowIt;
-		if (coords + Movement<1>::DOWN == world->player->coords
-			|| coords + Movement<1>::DOWN == world->player->coords - world->player->getPrevMoveVec())
-		{
-			world->player->changeDiamonds(1);
-			this->replace(std::make_unique<DiamondParticlesEntity>(world, coords + Movement<1>::DOWN));
-
-			return;
-		}
-	}
-
-	this->FallingRotatableEntity::calcUpdateState();
 }
 
 std::vector<const Photos::PreloadedAnimation*> DiamondParticlesEntity::m_animationsList{};

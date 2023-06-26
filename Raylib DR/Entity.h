@@ -181,6 +181,8 @@ class FallingEntity : virtual public SmoothlyMovableEntity
 public:
 	FallingEntity();
 
+	virtual void move() override;
+
 	virtual bool push(char pushDirection);
 
 	int getFallHeight();
@@ -189,7 +191,7 @@ protected:
 	virtual void calcUpdateState() override;
 	virtual void calcDrawState() override;
 
-	int fallHeigth = 0;
+	int fallHeight = 0;
 	char staggeringLeft = 0;
 	char staggeringRight = 0;
 
