@@ -12,6 +12,7 @@
 #include "Entity.h"
 #include "Photos.h"
 #include "Cell.h"
+#include "Sidebar.h"
 
 class EventsHandler;
 class PlayerEntity;
@@ -19,13 +20,13 @@ class PlayerEntity;
 class World
 {
 public:
-	World();
 	World(
 		const Photos& worldPhotos,
 		const EventsHandler* eventsHandler,
 		const Coords& viewportSize,
 		const Coords& updateSize,
 		const Coords& windowSize,
+		int sidebarWidth,
 		int framesPerMove,
 		const Coords& maxPlayerShift
 	);
@@ -43,6 +44,7 @@ public:
 
 	Coords viewportSize;
 	Coords viewportCoords;
+	int sidebarWidth;
 	Coords viewportMoveVec = Movement<1>::NONE;
 	Coords maxPlayerShift;
 
@@ -60,5 +62,6 @@ private:
 
 	Coords m_mapSize{};
 
+	Sidebar m_sidebar;
 	const Texture* m_background;
 };

@@ -35,7 +35,7 @@ public:
 		WALL_HIDDEN_WAY
 	};
 
-	Entity(World* world, const Coords& entityCoords, Entity::Type type);
+	Entity(const Coords& entityCoords, Entity::Type type);
 
 	virtual void update();
 	virtual void draw();
@@ -51,10 +51,12 @@ public:
 
 	virtual ~Entity();
 
+	friend class World;
+
 protected:
 	Entity();
 
-	World* world;
+	inline static World* world = nullptr;
 
 	Entity::Type type;
 };
@@ -183,7 +185,7 @@ public:
 
 	virtual void move() override;
 
-	virtual bool push(char pushDirection);
+	virtual bool push(char direction);
 
 	int getFallHeight();
 
@@ -205,7 +207,7 @@ class FallingRotatableEntity : virtual public FallingEntity
 public:
 	FallingRotatableEntity();
 
-	virtual bool push(char pushDirection) override;
+	virtual bool push(char direction) override;
 
 protected:
 	virtual void calcUpdateState() override;

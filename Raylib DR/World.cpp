@@ -3,14 +3,13 @@
 #include "Entities.h"
 #include "EventsHandler.h"
 
-World::World() = default;
-
 World::World(
 	const Photos& worldPhotos,
 	const EventsHandler* eventsHandler,
 	const Coords& viewportSize,
 	const Coords& updateSize,
 	const Coords& windowSize,
+	int sidebarWidth,
 	int framesPerMove,
 	const Coords& maxPlayerShift) :
 	photos{ worldPhotos },
@@ -18,11 +17,14 @@ World::World(
 	viewportSize{ viewportSize },
 	updateSize{ updateSize },
 	cellSize{ windowSize / (viewportSize * 2 + 1) },
+	sidebarWidth{ sidebarWidth },
 	framesPerMove{ framesPerMove },
 	pixelsPerMove{ cellSize / framesPerMove },
-	maxPlayerShift{ maxPlayerShift }
+	maxPlayerShift{ maxPlayerShift },
+	m_sidebar{ this },
+	m_background{ photos.getSimpleTexture("background") }
 {
-	m_background = photos.getSimpleTexture("background");
+	Entity::world = this;
 
 	const Image* mapImage = photos.getSimpleImage("map");
 	Color* colors = LoadImageColors(*mapImage);
@@ -40,33 +42,33 @@ World::World(
 
 			if (color == Color{ 0, 0, 0, 255 })
 			{
-				entity = std::make_unique<WallEntity>(this, Coords{ x, y });
+				entity = std::make_unique<WallEntity>(Coords{ x, y });
 			}
 			else if (color == Color{ 63, 63, 63, 255 })
 			{
-				entity = std::make_unique<WallHiddenWayEntity>(this, Coords{ x, y });
+				entity = std::make_unique<WallHiddenWayEntity>(Coords{ x, y });
 			}
 			else if (color == Color{ 127, 127, 127, 255 })
 			{
-				entity = std::make_unique<WallWayEntity>(this, Coords{ x, y });
+				entity = std::make_unique<WallWayEntity>(Coords{ x, y });
 			}
 			else if (color == Color{ 0, 0, 255, 255 })
 			{
 				viewportCoords = { x, y };
-				entity = std::make_unique<PlayerEntity>(this, viewportCoords, &eventsHandler->playerMoveEventSource);
+				entity = std::make_unique<PlayerEntity>(viewportCoords, &eventsHandler->playerMoveEventSource);
 				player = dynamic_cast<PlayerEntity*>(entity.get());
 			}
 			else if (color == Color{ 0, 255, 0, 255 })
 			{
-				entity = std::make_unique<BushEntity>(this, Coords{ x, y });
+				entity = std::make_unique<BushEntity>(Coords{ x, y });
 			}
 			else if (color == Color{ 255, 0, 0, 255 })
 			{
-				entity = std::make_unique<RockEntity>(this, Coords{ x, y });
+				entity = std::make_unique<RockEntity>(Coords{ x, y });
 			}
 			else if (color == Color{ 127, 127, 255, 255 })
 			{
-				entity = std::make_unique<DiamondEntity>(this, Coords{ x, y });
+				entity = std::make_unique<DiamondEntity>(Coords{ x, y });
 			}
 			else
 			{
@@ -85,7 +87,7 @@ World::World(
 
 void World::update()
 {
-	std::vector<Entity*> updateContainer{};
+	std::vector<Entity*> updateContainer = { player };
 
 	for (int y = std::min(viewportCoords.y + updateSize.y, m_mapSize.y - 1); y >= std::max(viewportCoords.y - updateSize.y, 0); y--)
 	{
@@ -101,13 +103,27 @@ void World::update()
 		}
 	}
 
-	updateContainer.push_back(player);
-
 	for (Entity* entity : updateContainer)
 	{
 		if (entity)
 		{
 			entity->update();
+		}
+	}
+
+	updateContainer = { player };
+
+	for (int y = std::min(viewportCoords.y + updateSize.y, m_mapSize.y - 1); y >= std::max(viewportCoords.y - updateSize.y, 0); y--)
+	{
+		for (int x = std::max(viewportCoords.x - updateSize.x, 0); x < std::min(viewportCoords.x + updateSize.x + 1, m_mapSize.x); x++)
+		{
+			for (const std::unique_ptr<Entity>& entityPtr : this->getCell({ x, y }))
+			{
+				if (entityPtr->getType() != Entity::Type::PLAYER)
+				{
+					updateContainer.push_back(entityPtr.get());
+				}
+			}
 		}
 	}
 
@@ -124,15 +140,6 @@ void World::update()
 
 void World::draw()
 {
-	DrawTextureQuad(
-		*m_background,
-		{ viewportSize.x * 2 + 3.0f, viewportSize.y * 2 + 3.0f },
-		{ 0.0f, 0.0f },
-		Rectangle{ -(float)cellSize.x, -(float)cellSize.y, (viewportSize.x * 2 + 3.0f) * cellSize.x, (viewportSize.y * 2 + 3.0f) * cellSize.y }
-		- (viewportMoveVec * pixelsPerMove * (currentFrame + 1)),
-		WHITE
-	);
-
 	std::vector<Entity*> drawContainer{};
 
 	for (int y = std::min(viewportCoords.y + viewportSize.y + 1, m_mapSize.y - 1); y >= std::max(viewportCoords.y - viewportSize.y - 1, 0); y--)
@@ -152,10 +159,21 @@ void World::draw()
 		}
 	);
 
+	DrawTextureQuad(
+		*m_background,
+		{ viewportSize.x * 2 + 3.0f, viewportSize.y * 2 + 3.0f },
+		{ 0.0f, 0.0f },
+		Rectangle{ -(float)cellSize.x + sidebarWidth, -(float)cellSize.y, (viewportSize.x * 2 + 3.0f) * cellSize.x, (viewportSize.y * 2 + 3.0f) * cellSize.y }
+		- (viewportMoveVec * pixelsPerMove * (currentFrame + 1)),
+		WHITE
+	);
+
 	for (Entity* entity : drawContainer)
 	{
 		entity->draw();
 	}
+
+	m_sidebar.draw();
 
 	currentFrame = (currentFrame + 1) % framesPerMove;
 }

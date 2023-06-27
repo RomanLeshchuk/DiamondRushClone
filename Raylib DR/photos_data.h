@@ -45,7 +45,8 @@ namespace SimpleTextures
 {
 	std::unordered_map<std::string_view, Photos::SimpleTextureData> SimpleTexturesDatas
 	{
-		{ "background", "textures/background.png" }
+		{ "background", "textures/background.png" },
+		{ "sidebar", "textures/sidebar.png" }
 	};
 }
 

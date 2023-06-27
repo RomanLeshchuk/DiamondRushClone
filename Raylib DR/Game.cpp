@@ -16,9 +16,18 @@ Game::Game(const std::string_view& windowTitle, int level)
 
 void Game::init(const std::string_view& windowTitle, int level)
 {
-    InitWindow(Options::WindowSize.x, Options::WindowSize.y, windowTitle.data());
+    InitWindow(Options::WorldSize.x + Options::SidebarWidth, Options::WorldSize.y, windowTitle.data());
 
-    world = std::make_unique<World>(LevelsPhotos[level], &m_eventsHandler, Options::ViewportSize, Options::UpdateRectSize, Options::WindowSize, Options::FramesPerMove, Options::MaxPlayerShift);
+    world = std::make_unique<World>(
+        LevelsPhotos[level],
+        &m_eventsHandler,
+        Options::ViewportSize,
+        Options::UpdateRectSize,
+        Options::WorldSize,
+        Options::SidebarWidth,
+        Options::FramesPerMove,
+        Options::MaxPlayerShift
+    );
 
 #ifdef __EMSCRIPTEN__
     emscripten_set_main_loop_arg(MainloopCallback, (void*)this, 0, true);

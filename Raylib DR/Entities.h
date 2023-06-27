@@ -14,14 +14,10 @@ public:
 		PUSHING
 	};
 
-	PlayerEntity(World* world, const Coords& entityCoords, const Coords* moveEventSource);
+	PlayerEntity(const Coords& entityCoords, const Coords* moveEventSource);
 
 	void changeDiamonds(int value);
 	void changeHealth(int value);
-
-	Coords getPrevMoveVec();
-
-	FallingEntity* fallingAboveEntity = nullptr;
 
 protected:
 	virtual void calcUpdateState() override;
@@ -38,7 +34,6 @@ private:
 	int m_diamondsCollected = 0;
 	int m_health = 10;
 
-
 	static constexpr char turnsNeededToPush = 5;
 
 	static std::vector<const Photos::PreloadedAnimation*> m_animationsList;
@@ -47,7 +42,7 @@ private:
 class Shadow final : public TemporaryEntity
 {
 public:
-	Shadow(World* world, const Coords& entityCoords, SmoothlyMovableEntity* const entityShadowOf);
+	Shadow(const Coords& entityCoords, SmoothlyMovableEntity* const entityShadowOf);
 
 	SmoothlyMovableEntity* const shadowOf;
 
@@ -57,19 +52,19 @@ public:
 class WallEntity final : public TexturedEntity
 {
 public:
-	WallEntity(World* world, const Coords& entityCoords);
+	WallEntity(const Coords& entityCoords);
 };
 
 class BushEntity final : public TexturedEntity
 {
 public:
-	BushEntity(World* world, const Coords& entityCoords);
+	BushEntity(const Coords& entityCoords);
 };
 
 class BushParticlesEntity final : public TemporaryAnimatedEntity
 {
 public:
-	BushParticlesEntity(World* world, const Coords& entityCoords);
+	BushParticlesEntity(const Coords& entityCoords);
 
 private:
 	static std::vector<const Photos::PreloadedAnimation*> m_animationsList;
@@ -78,31 +73,37 @@ private:
 class WallWayEntity final : public TexturedEntity
 {
 public:
-	WallWayEntity(World* world, const Coords& entityCoords);
+	WallWayEntity(const Coords& entityCoords);
 };
 
 class WallHiddenWayEntity final : public TexturedEntity
 {
 public:
-	WallHiddenWayEntity(World* world, const Coords& entityCoords);
+	WallHiddenWayEntity(const Coords& entityCoords);
 };
 
 class RockEntity final : public FallingRotatableEntity, public TexturedEntity
 {
 public:
-	RockEntity(World* world, const Coords& entityCoords);
+	RockEntity(const Coords& entityCoords);
+
+protected:
+	virtual void calcUpdateState() override;
 };
 
 class DiamondEntity final : public FallingRotatableEntity, public TexturedEntity
 {
 public:
-	DiamondEntity(World* world, const Coords& entityCoords);
+	DiamondEntity(const Coords& entityCoords);
+
+protected:
+	virtual void calcUpdateState() override;
 };
 
 class DiamondParticlesEntity final : public TemporaryAnimatedEntity
 {
 public:
-	DiamondParticlesEntity(World* world, const Coords& entityCoords);
+	DiamondParticlesEntity(const Coords& entityCoords);
 
 private:
 	static std::vector<const Photos::PreloadedAnimation*> m_animationsList;

@@ -5,8 +5,8 @@
 
 Entity::Entity() = default;
 
-Entity::Entity(World* world, const Coords& entityCoords, Entity::Type type) :
-	world{ world }, coords{ entityCoords }, type{ type }
+Entity::Entity(const Coords& entityCoords, Entity::Type type) :
+	coords{ entityCoords }, type{ type }
 {
 }
 
@@ -96,7 +96,8 @@ void TexturedEntity::draw()
 		{ 0.0f, 0.0f,
 		((currentDrawableFlip.x != currentTexture->flip.x) ? -1.0f : 1.0f) * currentTexture->texture.width,
 		((currentDrawableFlip.y != currentTexture->flip.y) ? -1.0f : 1.0f) * currentTexture->texture.height },
-		{ drawOffset.x + (currentDrawableOffset.x + (currentDrawableFlip.x ? -1.0f : 1.0f) * currentTexture->offset.x - (std::cos(rotatationRad) - std::sin(rotatationRad)) / 2 + 0.5f) * world->cellSize.x,
+		{ world->sidebarWidth + drawOffset.x
+		+ (currentDrawableOffset.x + (currentDrawableFlip.x ? -1.0f : 1.0f) * currentTexture->offset.x - (std::cos(rotatationRad) - std::sin(rotatationRad)) / 2 + 0.5f) * world->cellSize.x,
 		drawOffset.y + (currentDrawableOffset.y + (currentDrawableFlip.y ? -1.0f : 1.0f) * currentTexture->offset.y - (std::cos(rotatationRad) + std::sin(rotatationRad)) / 2 + 0.5f) * world->cellSize.y,
 		currentDrawableStretch.x * currentTexture->stretch.x * world->cellSize.x, currentDrawableStretch.y * currentTexture->stretch.y * world->cellSize.y },
 		{ 0.0f, 0.0f },
@@ -153,7 +154,8 @@ void AnimatedEntity::draw()
 		{ (float)currentAnimation->frameWidth * (currentAnimation->sequence[currentAnimationFrameId] - 1), 0.0f,
 		((currentDrawableFlip.x != currentAnimation->flip.x) ? -1.0f : 1.0f) * currentAnimation->frameWidth,
 		((currentDrawableFlip.y != currentAnimation->flip.y) ? -1.0f : 1.0f) * currentAnimation->animation.height },
-		{ drawOffset.x + (currentDrawableOffset.x + (currentDrawableFlip.x ? -1.0f : 1.0f) * currentAnimation->offset.x - (std::cos(rotatationRad) - std::sin(rotatationRad)) / 2 + 0.5f) * world->cellSize.x,
+		{ world->sidebarWidth + drawOffset.x
+		+ (currentDrawableOffset.x + (currentDrawableFlip.x ? -1.0f : 1.0f) * currentAnimation->offset.x - (std::cos(rotatationRad) - std::sin(rotatationRad)) / 2 + 0.5f) * world->cellSize.x,
 		drawOffset.y + (currentDrawableOffset.y + (currentDrawableFlip.y ? -1.0f : 1.0f) * currentAnimation->offset.y - (std::cos(rotatationRad) + std::sin(rotatationRad)) / 2 + 0.5f) * world->cellSize.y,
 		currentDrawableStretch.x * currentAnimation->stretch.x * world->cellSize.x, currentDrawableStretch.y * currentAnimation->stretch.y * world->cellSize.y },
 		{ 0.0f, 0.0f },
@@ -214,11 +216,16 @@ void SmoothlyMovableEntity::move()
 		return;
 	}
 
+	for (Entity* entity : this->MovableEntity::getSolidEntitiesInOffsetCell(moveVec))
+	{
+		entity->destroy();
+	}
+
 	Cell::iterator prevIt = world->getCell(coords).find(type);
 	world->getCell(coords + moveVec).add(std::move(*prevIt));
 	world->getCell(coords).erase(prevIt);
 
-	std::unique_ptr<Shadow> entityShadow = std::make_unique<Shadow>(world, coords, this);
+	std::unique_ptr<Shadow> entityShadow = std::make_unique<Shadow>(coords, this);
 	entityShadow->update();
 	shadow = entityShadow.get();
 	world->getCell(coords).add(std::move(entityShadow));
@@ -336,16 +343,22 @@ void FallingEntity::move()
 	this->SmoothlyMovableEntity::move();
 }
 
-bool FallingEntity::push(char pushDirection)
+bool FallingEntity::push(char direction)
 {
 	if (moveVec != Movement<1>::NONE
-		|| !this->getSolidEntitiesInOffsetCell({ pushDirection, 0 }).empty())
+		|| !this->getSolidEntitiesInOffsetCell({ direction, 0 }).empty()
+		|| this->getSolidEntitiesInOffsetCell(Movement<1>::DOWN).empty())
 	{
 		return false;
 	}
 
-	this->moveVec = { pushDirection, 0 };
+	staggeringLeft = 0;
+	staggeringRight = 0;
+
+	this->moveVec = { direction, 0 };
 	this->move();
+
+	wasUpdated = true;
 
 	return true;
 }
@@ -370,16 +383,10 @@ void FallingEntity::calcUpdateState()
 		staggeringRight = 0;
 	}
 
-	if (downCellSolidEntities.empty())
+	if (downCellSolidEntities.empty() || (fallHeight
+		&& (coords + Movement<1>::DOWN == world->player->coords - world->player->moveVec)))
 	{
 		moveVec = Movement<1>::DOWN;
-	}
-	else if (fallHeight
-		&& (coords + Movement<1>::DOWN == world->player->coords
-		|| coords + Movement<1>::DOWN == world->player->coords - world->player->getPrevMoveVec()))
-	{
-		world->player->fallingAboveEntity = this;
-		return;
 	}
 	else
 	{
@@ -523,6 +530,15 @@ bool FallingRotatableEntity::push(char direction)
 	if (this->FallingEntity::push(direction))
 	{
 		rollDirection = direction;
+		if (rollDirection == -1)
+		{
+			currentRotationState = (currentRotationState - 1 >= 0 ? currentRotationState - 1 : 3);
+		}
+		else if (rollDirection == 1)
+		{
+			currentRotationState = (currentRotationState + 1) % 4;
+		}
+
 		return true;
 	}
 
@@ -531,36 +547,29 @@ bool FallingRotatableEntity::push(char direction)
 
 void FallingRotatableEntity::calcUpdateState()
 {
-	if (staggeringLeft == -1 || rollDirection == -1)
+	this->FallingEntity::calcUpdateState();
+
+	if (staggeringLeft == -1)
 	{
 		currentRotationState = currentRotationState - 1 >= 0 ? currentRotationState - 1 : 3;
+		rollDirection = -1;
 	}
-	else if (staggeringRight == -1 || rollDirection == 1)
+	else if (staggeringRight == -1)
 	{
 		currentRotationState = (currentRotationState + 1) % 4;
+		rollDirection = 1;
 	}
-
-	rollDirection = 0;
-
-	this->FallingEntity::calcUpdateState();
+	else
+	{
+		rollDirection = 0;
+	}
 }
 
 void FallingRotatableEntity::calcDrawState()
 {
 	this->FallingEntity::calcDrawState();
 
-	if (staggeringLeft != -1 && staggeringRight != -1)
-	{
-		currentDrawableRotation += 90.0f * currentRotationState;
-	}
-	else if (staggeringLeft == -1)
-	{
-		currentDrawableRotation += 90.0f * (currentRotationState - (world->currentFrame + 1.0f) / world->framesPerMove);
-	}
-	else if (staggeringRight == -1)
-	{
-		currentDrawableRotation += 90.0f * (currentRotationState + (world->currentFrame + 1.0f) / world->framesPerMove);
-	}
+	currentDrawableRotation += rollDirection * 90.0f * ((world->currentFrame + 1.0f) / world->framesPerMove);
 
-	currentDrawableRotation += rollDirection * 90.0f * (world->currentFrame + 1.0f) / world->framesPerMove;
+	currentDrawableRotation += 90.0f * (currentRotationState - rollDirection);
 }

@@ -5,8 +5,8 @@
 
 std::vector<const Photos::PreloadedAnimation*> PlayerEntity::m_animationsList{};
 
-PlayerEntity::PlayerEntity(World* world, const Coords& entityCoords, const Coords* moveEventSource) :
-	Entity(world, entityCoords, Entity::Type::PLAYER),
+PlayerEntity::PlayerEntity(const Coords& entityCoords, const Coords* moveEventSource) :
+	Entity(entityCoords, Entity::Type::PLAYER),
 	UpdatableEntity(),
 	DrawableEntity(),
 	AnimatedEntity(nullptr),
@@ -34,37 +34,14 @@ void PlayerEntity::changeHealth(int value)
 	m_health += value;
 }
 
-Coords PlayerEntity::getPrevMoveVec()
-{
-	return m_prevMoveVec;
-}
-
 void PlayerEntity::calcUpdateState()
 {
 	m_prevMoveVec = moveVec;
 	moveVec = *m_moveEventSource;
 
-	if (moveVec == Movement<1>::NONE)
-	{
-		if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::CALM]))
-		{
-			this->setNewAnimation(m_animationsList[(int)Animations::CALM]);
-		}
-
-		world->viewportMoveVec = Movement<1>::NONE;
-		m_pushingTurn = 0;
-
-		return;
-	}
-
-	if (m_prevMoveVec == Movement<1>::NONE && m_viewDirection != moveVec)
+	if (m_viewDirection != moveVec)
 	{
 		m_viewDirection = moveVec;
-
-		if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::CALM]))
-		{
-			this->setNewAnimation(m_animationsList[(int)Animations::CALM]);
-		}
 
 		if (m_viewDirection == Movement<1>::LEFT)
 		{
@@ -75,103 +52,95 @@ void PlayerEntity::calcUpdateState()
 			currentDrawableFlip.x = false;
 		}
 
-		moveVec = Movement<1>::NONE;
-		world->viewportMoveVec = Movement<1>::NONE;
-		m_pushingTurn = 0;
-
-		return;
+		if (m_prevMoveVec == Movement<1>::NONE)
+		{
+			moveVec = Movement<1>::NONE;
+			world->viewportMoveVec = Movement<1>::NONE;
+			m_pushingTurn = 0;
+		}
 	}
 
-	if (fallingAboveEntity)
+	if (moveVec)
 	{
-		if (moveVec != Movement<1>::DOWN)
-		{
-			if (fallingAboveEntity->getType() == Entity::Type::ROCK)
-			{
-				this->changeHealth(-fallingAboveEntity->getFallHeight());
-			}
-			else if (fallingAboveEntity->getType() == Entity::Type::DIAMOND)
-			{
-				this->changeDiamonds(1);
-				fallingAboveEntity->replace(std::make_unique<DiamondParticlesEntity>(world, coords));
-			}
-		}
-		if (fallingAboveEntity)
-		{
-			fallingAboveEntity->move();
-		}
+		std::vector<Entity*> solidEntities = this->getSolidEntitiesInOffsetCell(moveVec);
 
-		fallingAboveEntity = nullptr;
-	}
-	
-
-	std::vector<Entity*> solidEntities = this->getSolidEntitiesInOffsetCell(moveVec);
-	
-	if (solidEntities.empty() || (solidEntities.size() == 1
-		&& (solidEntities[0]->getType() == Entity::Type::BUSH || solidEntities[0]->getType() == Entity::Type::DIAMOND || solidEntities[0]->getType() == Entity::Type::SHADOW)))
-	{
-		if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::CALM]))
+		if (solidEntities.empty()
+			|| (solidEntities.size() == 1
+			&& (solidEntities[0]->getType() == Entity::Type::BUSH || solidEntities[0]->getType() == Entity::Type::DIAMOND || solidEntities[0]->getType() == Entity::Type::SHADOW)))
 		{
-			this->setNewAnimation(m_animationsList[(int)Animations::CALM]);
-		}
+			if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::CALM]))
+			{
+				this->setNewAnimation(m_animationsList[(int)Animations::CALM]);
+			}
 
-		if (solidEntities.size() == 1)
-		{
-			if (solidEntities[0]->getType() == Entity::Type::BUSH)
+			if (solidEntities.size() == 1)
 			{
-				solidEntities[0]->replace(std::make_unique<BushParticlesEntity>(world, coords + moveVec));
-			}
-			else if (solidEntities[0]->getType() == Entity::Type::DIAMOND)
-			{
-				solidEntities[0]->replace(std::make_unique<DiamondParticlesEntity>(world, coords + moveVec));
-				m_diamondsCollected++;
-			}
-			else if (solidEntities[0]->getType() == Entity::Type::SHADOW)
-			{
-				Shadow* shadow = dynamic_cast<Shadow*>(solidEntities[0]);
-				if (shadow->shadowOf->getType() == Entity::Type::DIAMOND && !shadow->shadowOf->moveVec.isCovering(moveVec))
+				if (solidEntities[0]->getType() == Entity::Type::BUSH)
 				{
-					shadow->shadowOf->replace(std::make_unique<DiamondParticlesEntity>(world, coords + moveVec));
+					solidEntities[0]->replace(std::make_unique<BushParticlesEntity>(solidEntities[0]->coords));
+				}
+				else if (solidEntities[0]->getType() == Entity::Type::DIAMOND)
+				{
+					solidEntities[0]->replace(std::make_unique<DiamondParticlesEntity>(solidEntities[0]->coords));
 					m_diamondsCollected++;
 				}
-
-			}
-		}
-
-		this->move();
-
-		m_pushingTurn = 0;
-	}
-	else if (moveVec.x != 0 && solidEntities.size() == 1)
-	{
-		if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::PUSHING]))
-		{
-			this->setNewAnimation(m_animationsList[(int)Animations::PUSHING]);
-		}
-
-		do
-		{
-			FallingEntity* entityToPush;
-			if ((entityToPush = dynamic_cast<FallingEntity*>(solidEntities[0])))
-			{
-				if ((m_pushingTurn == turnsNeededToPush || ++m_pushingTurn == turnsNeededToPush) && entityToPush->push(moveVec.x))
+				else if (solidEntities[0]->getType() == Entity::Type::SHADOW)
 				{
-					solidEntities.clear();
-					this->move();
+					Shadow* shadow = dynamic_cast<Shadow*>(solidEntities[0]);
+					if (shadow->shadowOf->getType() == Entity::Type::DIAMOND && !shadow->shadowOf->moveVec.isCovering(moveVec))
+					{
+						shadow->shadowOf->replace(std::make_unique<DiamondParticlesEntity>(solidEntities[0]->coords));
+						m_diamondsCollected++;
+					}
+				}
+			}
+
+			this->move();
+
+			m_pushingTurn = 0;
+		}
+		else if (moveVec.x != 0 && solidEntities.size() == 1)
+		{
+			if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::PUSHING]))
+			{
+				this->setNewAnimation(m_animationsList[(int)Animations::PUSHING]);
+			}
+
+			do
+			{
+				FallingEntity* entityToPush;
+				if (entityToPush = dynamic_cast<FallingEntity*>(solidEntities[0]))
+				{
+					if ((m_pushingTurn == turnsNeededToPush || ++m_pushingTurn == turnsNeededToPush) && entityToPush->push(moveVec.x))
+					{
+						solidEntities.clear();
+						this->move();
+
+						break;
+					}
+
+					moveVec = Movement<1>::NONE;
+					world->viewportMoveVec = Movement<1>::NONE;
 
 					break;
 				}
 
 				moveVec = Movement<1>::NONE;
 				world->viewportMoveVec = Movement<1>::NONE;
-
-				break;
+				m_pushingTurn = 0;
+			} while (false);
+		}
+		else
+		{
+			if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::CALM]))
+			{
+				this->setNewAnimation(m_animationsList[(int)Animations::CALM]);
 			}
 
 			moveVec = Movement<1>::NONE;
 			world->viewportMoveVec = Movement<1>::NONE;
 			m_pushingTurn = 0;
-		} while (false);
+		}
 	}
 	else
 	{
@@ -179,12 +148,6 @@ void PlayerEntity::calcUpdateState()
 		{
 			this->setNewAnimation(m_animationsList[(int)Animations::CALM]);
 		}
-
-		moveVec = Movement<1>::NONE;
-		world->viewportMoveVec = Movement<1>::NONE;
-		m_pushingTurn = 0;
-
-		return;
 	}
 
 	const Coords& possibleShift = m_shift + moveVec;
@@ -203,8 +166,8 @@ void PlayerEntity::calcUpdateState()
 	}
 }
 
-Shadow::Shadow(World* world, const Coords& entityCoords, SmoothlyMovableEntity* const entityShadowOf) :
-	Entity(world, entityCoords, Entity::Type::SHADOW),
+Shadow::Shadow(const Coords& entityCoords, SmoothlyMovableEntity* const entityShadowOf) :
+	Entity(entityCoords, Entity::Type::SHADOW),
 	UpdatableEntity(),
 	TemporaryEntity(1),
 	shadowOf{ entityShadowOf }
@@ -216,15 +179,15 @@ Shadow::~Shadow()
 	shadowOf->shadow = nullptr;
 }
 
-WallEntity::WallEntity(World* world, const Coords& entityCoords) :
-	Entity(world, entityCoords, Entity::Type::WALL),
+WallEntity::WallEntity(const Coords& entityCoords) :
+	Entity(entityCoords, Entity::Type::WALL),
 	DrawableEntity(),
 	TexturedEntity(world->photos.getTexture("wall"))
 {
 }
 
-BushEntity::BushEntity(World* world, const Coords& entityCoords) :
-	Entity(world, entityCoords, Entity::Type::BUSH),
+BushEntity::BushEntity(const Coords& entityCoords) :
+	Entity(entityCoords, Entity::Type::BUSH),
 	DrawableEntity(),
 	TexturedEntity(world->photos.getTexture("bush"))
 {
@@ -232,8 +195,8 @@ BushEntity::BushEntity(World* world, const Coords& entityCoords) :
 
 std::vector<const Photos::PreloadedAnimation*> BushParticlesEntity::m_animationsList{};
 
-BushParticlesEntity::BushParticlesEntity(World* world, const Coords& entityCoords) :
-	Entity(world, entityCoords, Entity::Type::BUSH_PARTICLES),
+BushParticlesEntity::BushParticlesEntity(const Coords& entityCoords) :
+	Entity(entityCoords, Entity::Type::BUSH_PARTICLES),
 	UpdatableEntity(),
 	DrawableEntity(),
 	AnimatedEntity(nullptr),
@@ -249,22 +212,22 @@ BushParticlesEntity::BushParticlesEntity(World* world, const Coords& entityCoord
 	currentAnimation = m_animationsList[0];
 }
 
-WallWayEntity::WallWayEntity(World* world, const Coords& entityCoords) :
-	Entity(world, entityCoords, Entity::Type::WALL_WAY),
+WallWayEntity::WallWayEntity(const Coords& entityCoords) :
+	Entity(entityCoords, Entity::Type::WALL_WAY),
 	DrawableEntity(),
 	TexturedEntity(world->photos.getTexture("wall_way"))
 {
 }
 
-WallHiddenWayEntity::WallHiddenWayEntity(World* world, const Coords& entityCoords) :
-	Entity(world, entityCoords, Entity::Type::WALL_HIDDEN_WAY),
+WallHiddenWayEntity::WallHiddenWayEntity(const Coords& entityCoords) :
+	Entity(entityCoords, Entity::Type::WALL_HIDDEN_WAY),
 	DrawableEntity(),
 	TexturedEntity(world->photos.getTexture("wall"))
 {
 }
 
-RockEntity::RockEntity(World* world, const Coords& entityCoords) :
-	Entity(world, entityCoords, Entity::Type::ROCK),
+RockEntity::RockEntity(const Coords& entityCoords) :
+	Entity(entityCoords, Entity::Type::ROCK),
 	DrawableEntity(),
 	TexturedEntity(world->photos.getTexture("rock")),
 	UpdatableEntity(),
@@ -274,8 +237,19 @@ RockEntity::RockEntity(World* world, const Coords& entityCoords) :
 {
 }
 
-DiamondEntity::DiamondEntity(World* world, const Coords& entityCoords) :
-	Entity(world, entityCoords, Entity::Type::DIAMOND),
+void RockEntity::calcUpdateState()
+{
+	if (fallHeight && coords + Movement<1>::DOWN == world->player->coords)
+	{
+		world->player->changeHealth(-fallHeight);
+		fallHeight = 0;
+	}
+
+	this->FallingRotatableEntity::calcUpdateState();
+}
+
+DiamondEntity::DiamondEntity(const Coords& entityCoords) :
+	Entity(entityCoords, Entity::Type::DIAMOND),
 	DrawableEntity(),
 	TexturedEntity(world->photos.getTexture("diamond")),
 	UpdatableEntity(),
@@ -285,10 +259,22 @@ DiamondEntity::DiamondEntity(World* world, const Coords& entityCoords) :
 {
 }
 
+void DiamondEntity::calcUpdateState()
+{
+	if (fallHeight && coords + Movement<1>::DOWN == world->player->coords)
+	{
+		world->player->changeDiamonds(1);
+		this->replace(std::make_unique<DiamondParticlesEntity>(world->player->coords));
+		return;
+	}
+
+	this->FallingRotatableEntity::calcUpdateState();
+}
+
 std::vector<const Photos::PreloadedAnimation*> DiamondParticlesEntity::m_animationsList{};
 
-DiamondParticlesEntity::DiamondParticlesEntity(World* world, const Coords& entityCoords) :
-	Entity(world, entityCoords, Entity::Type::DIAMOND_PARTICLES),
+DiamondParticlesEntity::DiamondParticlesEntity(const Coords& entityCoords) :
+	Entity(entityCoords, Entity::Type::DIAMOND_PARTICLES),
 	UpdatableEntity(),
 	DrawableEntity(),
 	AnimatedEntity(nullptr),
