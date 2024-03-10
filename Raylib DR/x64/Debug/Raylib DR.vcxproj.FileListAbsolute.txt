@@ -1,1 +1,0 @@
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\x64\Debug\Raylib DR.vcxproj.CopyComplete

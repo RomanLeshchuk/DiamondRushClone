@@ -157,6 +157,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Photos.cpp" />
     <ClCompile Include="Sidebar.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +171,7 @@
     <ClInclude Include="Photos.h" />
     <ClInclude Include="photos_data.h" />
     <ClInclude Include="Sidebar.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

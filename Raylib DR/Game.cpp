@@ -11,6 +11,8 @@
 
 Game::Game(const std::string_view& windowTitle, int level)
 {
+    static_assert(Options::MovesPerSecond < Options::FPS);
+
 	this->init(windowTitle, level);
 }
 
@@ -30,7 +32,7 @@ void Game::init(const std::string_view& windowTitle, int level)
     );
 
 #ifdef __EMSCRIPTEN__
-    emscripten_set_main_loop_arg(MainloopCallback, (void*)this, 0, true);
+    emscripten_set_main_loop_arg(MainloopCallback, (void*)this, Options::FPS, true);
 #else
     SetTargetFPS(Options::FPS);
 
@@ -55,6 +57,7 @@ void Game::mainloop()
     BeginDrawing();
     ClearBackground(BLACK);
     world->draw();
+
     EndDrawing();
 }
 

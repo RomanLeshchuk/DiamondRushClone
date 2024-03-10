@@ -34,6 +34,16 @@ void PlayerEntity::changeHealth(int value)
 	m_health += value;
 }
 
+const int* PlayerEntity::getDiamonds()
+{
+	return &m_diamondsCollected;
+}
+
+const int* PlayerEntity::getHealth()
+{
+	return &m_health;
+}
+
 void PlayerEntity::calcUpdateState()
 {
 	m_prevMoveVec = moveVec;

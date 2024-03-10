@@ -131,7 +131,7 @@ void AnimatedEntity::update()
 
 	this->calcUpdateState();
 
-	currentAnimationFramesPerTexture = world->framesPerMove * currentAnimation->duration / currentAnimation->sequence.size();
+	currentAnimationFramesPerTexture = std::max((int)(world->framesPerMove * currentAnimation->duration / currentAnimation->sequence.size()), 1);
 
 	if (currentAnimationFrameId == currentAnimation->sequence.size())
 	{
@@ -317,7 +317,7 @@ void TemporaryAnimatedEntity::update()
 	
 	this->calcUpdateState();
 
-	currentAnimationFramesPerTexture = world->framesPerMove * currentAnimation->duration / currentAnimation->sequence.size();
+	currentAnimationFramesPerTexture = std::max((int)(world->framesPerMove * currentAnimation->duration / currentAnimation->sequence.size()), 1);
 
 	if (currentAnimationFrameId == currentAnimation->sequence.size())
 	{

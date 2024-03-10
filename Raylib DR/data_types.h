@@ -206,9 +206,20 @@ struct Pair
 		return x == pair.x && y == pair.y;
 	}
 
+	template <typename U>
+	constexpr bool operator!=(const Pair<U>& pair) const
+	{
+		return x != pair.x || y != pair.y;
+	}
+
 	constexpr operator bool() const
 	{
 		return x || y;
+	}
+
+	constexpr operator Vector2() const
+	{
+		return Vector2{ (float)x, (float)y };
 	}
 
 	Pair& modThis()

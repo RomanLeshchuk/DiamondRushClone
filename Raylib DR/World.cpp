@@ -21,7 +21,8 @@ World::World(
 	framesPerMove{ framesPerMove },
 	pixelsPerMove{ cellSize / framesPerMove },
 	maxPlayerShift{ maxPlayerShift },
-	m_sidebar{ this },
+	m_sidebar{},
+	m_gameOver{ "Game over", { (windowSize.x + sidebarWidth) / 2, windowSize.y / 2 }, 128, WHITE },
 	m_background{ photos.getSimpleTexture("background") }
 {
 	Entity::world = this;
@@ -57,6 +58,7 @@ World::World(
 				viewportCoords = { x, y };
 				entity = std::make_unique<PlayerEntity>(viewportCoords, &eventsHandler->playerMoveEventSource);
 				player = dynamic_cast<PlayerEntity*>(entity.get());
+				m_sidebar = Sidebar(this);
 			}
 			else if (color == Color{ 0, 255, 0, 255 })
 			{
@@ -87,6 +89,11 @@ World::World(
 
 void World::update()
 {
+	if (*player->getHealth() <= 0)
+	{
+		return;
+	}
+
 	std::vector<Entity*> updateContainer = { player };
 
 	for (int y = std::min(viewportCoords.y + updateSize.y, m_mapSize.y - 1); y >= std::max(viewportCoords.y - updateSize.y, 0); y--)
@@ -140,6 +147,12 @@ void World::update()
 
 void World::draw()
 {
+	if (*player->getHealth() <= 0)
+	{
+		m_gameOver.draw();
+		return;
+	}
+
 	std::vector<Entity*> drawContainer{};
 
 	for (int y = std::min(viewportCoords.y + viewportSize.y + 1, m_mapSize.y - 1); y >= std::max(viewportCoords.y - viewportSize.y - 1, 0); y--)
@@ -159,14 +172,20 @@ void World::draw()
 		}
 	);
 
-	DrawTextureQuad(
-		*m_background,
-		{ viewportSize.x * 2 + 3.0f, viewportSize.y * 2 + 3.0f },
-		{ 0.0f, 0.0f },
-		Rectangle{ -(float)cellSize.x + sidebarWidth, -(float)cellSize.y, (viewportSize.x * 2 + 3.0f) * cellSize.x, (viewportSize.y * 2 + 3.0f) * cellSize.y }
-		- (viewportMoveVec * pixelsPerMove * (currentFrame + 1)),
-		WHITE
-	);
+	for (int y = -1; y <= viewportSize.y * 2 + 1; y++)
+	{
+		for (int x = -1; x <= viewportSize.x * 2 + 1; x++)
+		{
+			DrawTexturePro(
+				*m_background,
+				{ 0.0f, 0.0f, (float)m_background->width, (float)m_background->height },
+				Rectangle{ (float)sidebarWidth + x * cellSize.x, (float)y * cellSize.y, (float)cellSize.x, (float)cellSize.y } - (viewportMoveVec * pixelsPerMove * (currentFrame + 1)),
+				{ 0.0f, 0.0f },
+				0.0f,
+				WHITE
+			);
+		}
+	}
 
 	for (Entity* entity : drawContainer)
 	{

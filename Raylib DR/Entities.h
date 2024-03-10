@@ -19,6 +19,9 @@ public:
 	void changeDiamonds(int value);
 	void changeHealth(int value);
 
+	const int* getHealth();
+	const int* getDiamonds();
+
 protected:
 	virtual void calcUpdateState() override;
 

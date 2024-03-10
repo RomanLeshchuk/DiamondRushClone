@@ -63,5 +63,6 @@ private:
 	Coords m_mapSize{};
 
 	Sidebar m_sidebar;
+	Text m_gameOver;
 	const Texture* m_background;
 };
