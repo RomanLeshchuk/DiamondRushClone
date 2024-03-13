@@ -22,4 +22,13 @@ void EventsHandler::handleEvents()
 	{
 		playerMoveEventSource = Movement<1>::NONE;
 	}
+
+	if (IsKeyDown(KEY_ENTER))
+	{
+		enterEventSource = true;
+	}
+	else
+	{
+		enterEventSource = false;
+	}
 }

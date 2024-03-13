@@ -2,7 +2,7 @@
 
 #include "raylib.h"
 
-#include <string_view>
+#include <string>
 #include <limits>
 
 #include "data_types.h"
@@ -12,14 +12,16 @@
 class Game
 {
 public:
-    Game(const std::string_view& windowTitle, int level);
+    Game(const std::string& windowTitle, int level);
 
 	void mainloop();
 
 private:
-	void init(const std::string_view& windowTitle, int level);
+	void init(const std::string& windowTitle, int level);
+	void createWorld(int level);
 
 	std::unique_ptr<World> world = nullptr;
+	int m_currentLevel = 0;
 	EventsHandler m_eventsHandler{};
 };
 

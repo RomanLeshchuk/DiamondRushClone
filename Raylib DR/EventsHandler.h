@@ -10,6 +10,7 @@ public:
 	EventsHandler() = default;
 
 	Coords playerMoveEventSource = Movement<1>::NONE;
+	bool enterEventSource = false;
 
 	void handleEvents();
 };

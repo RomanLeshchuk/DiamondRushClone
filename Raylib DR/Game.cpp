@@ -2,6 +2,7 @@
 
 #include <functional>
 
+#include "Entities.h"
 #include "options.h"
 #include "photos_data.h"
 
@@ -9,27 +10,18 @@
 #include "emscripten.h"
 #endif
 
-Game::Game(const std::string_view& windowTitle, int level)
+Game::Game(const std::string& windowTitle, int level)
 {
     static_assert(Options::MovesPerSecond < Options::FPS);
 
 	this->init(windowTitle, level);
 }
 
-void Game::init(const std::string_view& windowTitle, int level)
+void Game::init(const std::string& windowTitle, int level)
 {
-    InitWindow(Options::WorldSize.x + Options::SidebarWidth, Options::WorldSize.y, windowTitle.data());
+    InitWindow(Options::WorldSize.x + Options::SidebarWidth, Options::WorldSize.y, windowTitle.c_str());
 
-    world = std::make_unique<World>(
-        LevelsPhotos[level],
-        &m_eventsHandler,
-        Options::ViewportSize,
-        Options::UpdateRectSize,
-        Options::WorldSize,
-        Options::SidebarWidth,
-        Options::FramesPerMove,
-        Options::MaxPlayerShift
-    );
+    this->createWorld(level);
 
 #ifdef __EMSCRIPTEN__
     emscripten_set_main_loop_arg(MainloopCallback, (void*)this, Options::FPS, true);
@@ -45,9 +37,29 @@ void Game::init(const std::string_view& windowTitle, int level)
     CloseWindow();
 }
 
+void Game::createWorld(int level)
+{
+    world.reset();
+    world = std::make_unique<World>(
+        LevelsPhotos[level],
+        &m_eventsHandler,
+        Options::ViewportSize,
+        Options::UpdateRectSize,
+        Options::WorldSize,
+        Options::SidebarWidth,
+        Options::FramesPerMove,
+        Options::MaxPlayerShift
+    );
+}
+
 void Game::mainloop()
 {
     m_eventsHandler.handleEvents();
+
+    if (!(*world->player->getHealth()) && m_eventsHandler.enterEventSource)
+    {
+        this->createWorld(m_currentLevel);
+    }
 
     if (world->currentFrame == 0)
     {

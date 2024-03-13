@@ -11,7 +11,8 @@ public:
 	enum class Animations
 	{
 		CALM,
-		PUSHING
+		PUSHING,
+		HOLDING
 	};
 
 	PlayerEntity(const Coords& entityCoords, const Coords* moveEventSource);
@@ -21,6 +22,8 @@ public:
 
 	const int* getHealth();
 	const int* getDiamonds();
+
+	static void resetStaticResources();
 
 protected:
 	virtual void calcUpdateState() override;
@@ -69,6 +72,8 @@ class BushParticlesEntity final : public TemporaryAnimatedEntity
 public:
 	BushParticlesEntity(const Coords& entityCoords);
 
+	static void resetStaticResources();
+
 private:
 	static std::vector<const Photos::PreloadedAnimation*> m_animationsList;
 };
@@ -92,6 +97,8 @@ public:
 
 protected:
 	virtual void calcUpdateState() override;
+
+	int m_holdingTurn = 0;
 };
 
 class DiamondEntity final : public FallingRotatableEntity, public TexturedEntity
@@ -108,6 +115,10 @@ class DiamondParticlesEntity final : public TemporaryAnimatedEntity
 public:
 	DiamondParticlesEntity(const Coords& entityCoords);
 
+	static void resetStaticResources();
+
 private:
 	static std::vector<const Photos::PreloadedAnimation*> m_animationsList;
 };
+
+using EntitiesClassesList = std::tuple<PlayerEntity, Shadow, WallEntity, BushEntity, BushParticlesEntity, WallWayEntity, WallHiddenWayEntity, RockEntity, DiamondEntity, DiamondParticlesEntity>;

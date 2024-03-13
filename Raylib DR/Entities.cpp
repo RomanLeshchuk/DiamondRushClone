@@ -18,7 +18,8 @@ PlayerEntity::PlayerEntity(const Coords& entityCoords, const Coords* moveEventSo
 	{
 		m_animationsList = {
 			world->photos.getAnimation("player_calm"),
-			world->photos.getAnimation("player_push")
+			world->photos.getAnimation("player_push"),
+			world->photos.getAnimation("player_hold")
 		};
 	}
 	currentAnimation = m_animationsList[(int)Animations::CALM];
@@ -31,7 +32,7 @@ void PlayerEntity::changeDiamonds(int value)
 
 void PlayerEntity::changeHealth(int value)
 {
-	m_health += value;
+	m_health = std::max(m_health + value, 0);
 }
 
 const int* PlayerEntity::getDiamonds()
@@ -42,6 +43,11 @@ const int* PlayerEntity::getDiamonds()
 const int* PlayerEntity::getHealth()
 {
 	return &m_health;
+}
+
+void PlayerEntity::resetStaticResources()
+{
+	m_animationsList = {};
 }
 
 void PlayerEntity::calcUpdateState()
@@ -78,10 +84,7 @@ void PlayerEntity::calcUpdateState()
 			|| (solidEntities.size() == 1
 			&& (solidEntities[0]->getType() == Entity::Type::BUSH || solidEntities[0]->getType() == Entity::Type::DIAMOND || solidEntities[0]->getType() == Entity::Type::SHADOW)))
 		{
-			if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::CALM]))
-			{
-				this->setNewAnimation(m_animationsList[(int)Animations::CALM]);
-			}
+			this->setAnimation(m_animationsList[(int)Animations::CALM]);
 
 			if (solidEntities.size() == 1)
 			{
@@ -111,15 +114,12 @@ void PlayerEntity::calcUpdateState()
 		}
 		else if (moveVec.x != 0 && solidEntities.size() == 1)
 		{
-			if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::PUSHING]))
-			{
-				this->setNewAnimation(m_animationsList[(int)Animations::PUSHING]);
-			}
+			this->setAnimation(m_animationsList[(int)Animations::PUSHING]);
 
 			do
 			{
 				FallingEntity* entityToPush;
-				if (entityToPush = dynamic_cast<FallingEntity*>(solidEntities[0]))
+				if ((entityToPush = dynamic_cast<FallingEntity*>(solidEntities[0])))
 				{
 					if ((m_pushingTurn == turnsNeededToPush || ++m_pushingTurn == turnsNeededToPush) && entityToPush->push(moveVec.x))
 					{
@@ -142,10 +142,7 @@ void PlayerEntity::calcUpdateState()
 		}
 		else
 		{
-			if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::CALM]))
-			{
-				this->setNewAnimation(m_animationsList[(int)Animations::CALM]);
-			}
+			this->setAnimation(m_animationsList[(int)Animations::CALM]);
 
 			moveVec = Movement<1>::NONE;
 			world->viewportMoveVec = Movement<1>::NONE;
@@ -154,9 +151,14 @@ void PlayerEntity::calcUpdateState()
 	}
 	else
 	{
-		if (!Photos::equalAnimations(currentAnimation, m_animationsList[(int)Animations::CALM]))
+		std::vector<Entity*> aboveEntities = this->getSolidEntitiesInOffsetCell(Movement<1>::UP);
+		if (aboveEntities.size() && aboveEntities[0]->getType() == Entity::Type::ROCK)
 		{
-			this->setNewAnimation(m_animationsList[(int)Animations::CALM]);
+			this->setAnimation(m_animationsList[(int)Animations::HOLDING]);
+		}
+		else
+		{
+			this->setAnimation(m_animationsList[(int)Animations::CALM]);
 		}
 	}
 
@@ -222,6 +224,11 @@ BushParticlesEntity::BushParticlesEntity(const Coords& entityCoords) :
 	currentAnimation = m_animationsList[0];
 }
 
+void BushParticlesEntity::resetStaticResources()
+{
+	m_animationsList = {};
+}
+
 WallWayEntity::WallWayEntity(const Coords& entityCoords) :
 	Entity(entityCoords, Entity::Type::WALL_WAY),
 	DrawableEntity(),
@@ -249,10 +256,23 @@ RockEntity::RockEntity(const Coords& entityCoords) :
 
 void RockEntity::calcUpdateState()
 {
-	if (fallHeight && coords + Movement<1>::DOWN == world->player->coords)
+	if (coords + Movement<1>::DOWN == world->player->coords)
 	{
-		world->player->changeHealth(-fallHeight);
-		fallHeight = 0;
+		if (fallHeight)
+		{
+			world->player->changeHealth(-fallHeight);
+			fallHeight = 0;
+		}
+
+		m_holdingTurn++;
+		if (m_holdingTurn % 10 == 0)
+		{
+			world->player->changeHealth(-1);
+		}
+	}
+	else
+	{
+		m_holdingTurn = 0;
 	}
 
 	this->FallingRotatableEntity::calcUpdateState();
@@ -298,4 +318,9 @@ DiamondParticlesEntity::DiamondParticlesEntity(const Coords& entityCoords) :
 		};
 	}
 	currentAnimation = m_animationsList[0];
+}
+
+void DiamondParticlesEntity::resetStaticResources()
+{
+	m_animationsList = {};
 }

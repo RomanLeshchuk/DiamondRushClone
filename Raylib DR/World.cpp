@@ -22,8 +22,16 @@ World::World(
 	pixelsPerMove{ cellSize / framesPerMove },
 	maxPlayerShift{ maxPlayerShift },
 	m_sidebar{},
-	m_gameOver{ "Game over", { (windowSize.x + sidebarWidth) / 2, windowSize.y / 2 }, 128, WHITE },
+	m_gameOver{
+		{ "Game over", { sidebarWidth + windowSize.x / 2, windowSize.y / 2 }, windowSize.y / 10, WHITE },
+		{ "Press [Enter] to try again", { sidebarWidth + windowSize.x / 2, windowSize.y / 2 + windowSize.y / 5 }, windowSize.y / 20, WHITE }
+	},
 	m_background{ photos.getSimpleTexture("background") }
+{
+	this->init();
+}
+
+void World::init()
 {
 	Entity::world = this;
 
@@ -89,7 +97,7 @@ World::World(
 
 void World::update()
 {
-	if (*player->getHealth() <= 0)
+	if (!(*player->getHealth()))
 	{
 		return;
 	}
@@ -147,9 +155,15 @@ void World::update()
 
 void World::draw()
 {
-	if (*player->getHealth() <= 0)
+	if (!(*player->getHealth()))
 	{
-		m_gameOver.draw();
+		m_sidebar.draw();
+
+		for (const Text& text : m_gameOver)
+		{
+			text.draw();
+		}
+		
 		return;
 	}
 
@@ -200,4 +214,25 @@ void World::draw()
 Cell& World::getCell(const Coords& cellPos)
 {
 	return m_matrix[cellPos.y * m_mapSize.x + cellPos.x];
+}
+
+template <>
+void World::resetStaticData<0>()
+{
+	std::tuple_element_t<0, EntitiesClassesList>::resetStaticResources();
+}
+
+template <size_t element>
+void World::resetStaticData()
+{
+	std::tuple_element_t<element, EntitiesClassesList>::resetStaticResources();
+	this->resetStaticData<element - 1>();
+}
+
+World::~World()
+{
+	this->resetStaticData<std::tuple_size_v<EntitiesClassesList> - 1>();
+	PlayerEntity::resetStaticResources();
+	BushParticlesEntity::resetStaticResources();
+	DiamondParticlesEntity::resetStaticResources();
 }

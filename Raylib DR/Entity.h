@@ -8,7 +8,10 @@
 #include "data_types.h"
 #include "Photos.h"
 
+template <typename ...EntityClass>
+class RawWorld;
 class World;
+
 class Shadow;
 
 class Entity
@@ -46,6 +49,8 @@ public:
 
 	void destroy();
 	void replace(std::unique_ptr<Entity> newEntity);
+
+	static void resetStaticResources();
 
 	Coords coords;
 
@@ -112,7 +117,7 @@ class AnimatedEntity : virtual public UpdatableEntity, virtual public DrawableEn
 public:
 	AnimatedEntity(const Photos::PreloadedAnimation* animation);
 
-	void setNewAnimation(const Photos::PreloadedAnimation* animation);
+	void setAnimation(const Photos::PreloadedAnimation* animation);
 
 	virtual void update() override;
 	virtual void draw() override;

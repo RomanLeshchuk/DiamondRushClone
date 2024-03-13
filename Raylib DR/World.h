@@ -36,6 +36,8 @@ public:
 
 	Cell& getCell(const Coords& cellPos);
 
+	~World();
+
 	const EventsHandler* eventsHandler;
 	
 	PlayerEntity* player = nullptr;
@@ -58,11 +60,16 @@ public:
 	int currentMove = 0;
 
 private:
+	void init();
+
+	template <size_t element>
+	void resetStaticData();
+
 	std::vector<Cell> m_matrix{};
 
 	Coords m_mapSize{};
 
 	Sidebar m_sidebar;
-	Text m_gameOver;
+	std::vector<Text> m_gameOver;
 	const Texture* m_background;
 };

@@ -40,6 +40,10 @@ void Entity::replace(std::unique_ptr<Entity> newEntity)
 	this->destroy();
 }
 
+void Entity::resetStaticResources()
+{
+}
+
 Entity::~Entity() = default;
 
 UpdatableEntity::UpdatableEntity() = default;
@@ -113,8 +117,13 @@ AnimatedEntity::AnimatedEntity(const Photos::PreloadedAnimation* animation) :
 {
 }
 
-void AnimatedEntity::setNewAnimation(const Photos::PreloadedAnimation* animation)
+void AnimatedEntity::setAnimation(const Photos::PreloadedAnimation* animation)
 {
+	if (Photos::equalAnimations(currentAnimation, animation))
+	{
+		return;
+	}
+
 	currentAnimation = animation;
 	currentAnimationFrameId = 0;
 	m_lastMoveRemainder = 0;

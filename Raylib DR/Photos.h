@@ -2,7 +2,7 @@
 
 #include "raylib.h"
 
-#include <string_view>
+#include <string>
 #include <string>
 #include <initializer_list>
 #include <unordered_map>
@@ -38,19 +38,19 @@ public:
 
 	struct TextureData
 	{
-		std::string_view texturePath;
+		std::string texturePath;
 		Pair<float> stretch;
 		Pair<float> offset;
 		Pair<bool> flip;
 	};
 
-	using SimpleTextureData = std::string_view;
-	using ImageData = std::pair<std::string_view, Pair<float>>;
-	using SimpleImageData = std::string_view;
+	using SimpleTextureData = std::string;
+	using ImageData = std::pair<std::string, Pair<float>>;
+	using SimpleImageData = std::string;
 
 	struct AnimationData
 	{
-		std::string_view animationPath;
+		std::string animationPath;
 		std::vector<int> sequece;
 		Pair<float> stretch;
 		Pair<float> offset;
@@ -61,19 +61,19 @@ public:
 
 	Photos();
 	Photos(
-		const std::unordered_map<std::string_view, TextureData>* texturesData,
-		const std::unordered_map<std::string_view, SimpleTextureData>* simpleTexturesData,
-		const std::unordered_map<std::string_view, ImageData>* imagesData,
-		const std::unordered_map<std::string_view, SimpleImageData>* simpleImagesData,
-		const std::unordered_map<std::string_view, AnimationData>* animationsData);
+		const std::unordered_map<std::string, TextureData>* texturesData,
+		const std::unordered_map<std::string, SimpleTextureData>* simpleTexturesData,
+		const std::unordered_map<std::string, ImageData>* imagesData,
+		const std::unordered_map<std::string, SimpleImageData>* simpleImagesData,
+		const std::unordered_map<std::string, AnimationData>* animationsData);
 
-	const PreloadedTexture* getTexture(const std::string_view& key);
-	const PreloadedSimpleTexture* getSimpleTexture(const std::string_view& key);
+	const PreloadedTexture* getTexture(const std::string& key);
+	const PreloadedSimpleTexture* getSimpleTexture(const std::string& key);
 
-	const PreloadedImage* getImage(const std::string_view& key);
-	const PreloadedSimpleImage* getSimpleImage(const std::string_view& key);
+	const PreloadedImage* getImage(const std::string& key);
+	const PreloadedSimpleImage* getSimpleImage(const std::string& key);
 
-	const PreloadedAnimation* getAnimation(const std::string_view& key);
+	const PreloadedAnimation* getAnimation(const std::string& key);
 
 	static bool isSimpleTextureDrawable(const PreloadedSimpleTexture* texture);
 	static bool isSimpleImageDrawable(const PreloadedSimpleImage* image);
@@ -83,20 +83,20 @@ public:
 	~Photos();
 
 private:
-	const std::unordered_map<std::string_view, TextureData>* m_texturesData;
-	const std::unordered_map<std::string_view, std::string_view>* m_simpleTexturesData;
+	const std::unordered_map<std::string, TextureData>* m_texturesData;
+	const std::unordered_map<std::string, std::string>* m_simpleTexturesData;
 
-	const std::unordered_map<std::string_view, ImageData>* m_imagesData;
-	const std::unordered_map<std::string_view, std::string_view>* m_simpleImagesData;
+	const std::unordered_map<std::string, ImageData>* m_imagesData;
+	const std::unordered_map<std::string, std::string>* m_simpleImagesData;
 
-	const std::unordered_map<std::string_view, AnimationData>* m_animationsData;
+	const std::unordered_map<std::string, AnimationData>* m_animationsData;
 
-	std::unordered_map<std::string_view, PreloadedTexture> m_preloadedTextures{};
-	std::unordered_map<std::string_view, Texture> m_preloadedSimpleTextures{};
+	std::unordered_map<std::string, PreloadedTexture> m_preloadedTextures{};
+	std::unordered_map<std::string, Texture> m_preloadedSimpleTextures{};
 
-	std::unordered_map<std::string_view, PreloadedImage> m_preloadedImages{};
-	std::unordered_map<std::string_view, Image> m_preloadedSimpleImages{};
+	std::unordered_map<std::string, PreloadedImage> m_preloadedImages{};
+	std::unordered_map<std::string, Image> m_preloadedSimpleImages{};
 
-	std::unordered_map<std::string_view, Texture> m_preloadedAnimationsTextures{};
-	std::unordered_map<std::string_view, PreloadedAnimation> m_preloadedAnimations{};
+	std::unordered_map<std::string, Texture> m_preloadedAnimationsTextures{};
+	std::unordered_map<std::string, PreloadedAnimation> m_preloadedAnimations{};
 };
