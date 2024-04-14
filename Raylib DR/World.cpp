@@ -4,16 +4,17 @@
 #include "EventsHandler.h"
 
 World::World(
-	const Photos& worldPhotos,
-	const EventsHandler* eventsHandler,
+	Photos& worldPhotos,
+	const EventsHandler& eventsHandler,
+	const PlayerEntity::Data& playerData,
 	const Coords& viewportSize,
 	const Coords& updateSize,
 	const Coords& windowSize,
 	int sidebarWidth,
 	int framesPerMove,
 	const Coords& maxPlayerShift) :
-	photos{ worldPhotos },
-	eventsHandler{ eventsHandler },
+	photos{ &worldPhotos },
+	eventsHandler{ &eventsHandler },
 	viewportSize{ viewportSize },
 	updateSize{ updateSize },
 	cellSize{ windowSize / (viewportSize * 2 + 1) },
@@ -24,18 +25,18 @@ World::World(
 	m_sidebar{},
 	m_gameOver{
 		{ "Game over", { sidebarWidth + windowSize.x / 2, windowSize.y / 2 }, windowSize.y / 10, WHITE },
-		{ "Press [Enter] to try again", { sidebarWidth + windowSize.x / 2, windowSize.y / 2 + windowSize.y / 5 }, windowSize.y / 20, WHITE }
+		{ "Press [Enter] or [Swipe Up] to go to menu", { sidebarWidth + windowSize.x / 2, windowSize.y / 2 + windowSize.y / 5 }, windowSize.y / 25, WHITE }
 	},
-	m_background{ photos.getSimpleTexture("background") }
+	m_background{ photos->getSimpleTexture("background") }
 {
-	this->init();
+	this->init(playerData);
 }
 
-void World::init()
+void World::init(const PlayerEntity::Data& playerData)
 {
 	Entity::world = this;
 
-	const Image* mapImage = photos.getSimpleImage("map");
+	const Image* mapImage = photos->getSimpleImage("map");
 	Color* colors = LoadImageColors(*mapImage);
 
 	m_mapSize = { mapImage->width, mapImage->height };
@@ -64,7 +65,7 @@ void World::init()
 			else if (color == Color{ 0, 0, 255, 255 })
 			{
 				viewportCoords = { x, y };
-				entity = std::make_unique<PlayerEntity>(viewportCoords, &eventsHandler->playerMoveEventSource);
+				entity = std::make_unique<PlayerEntity>(viewportCoords, &eventsHandler->playerMoveEventSource, playerData);
 				player = dynamic_cast<PlayerEntity*>(entity.get());
 				m_sidebar = Sidebar(this);
 			}
@@ -97,7 +98,7 @@ void World::init()
 
 void World::update()
 {
-	if (!(*player->getHealth()))
+	if (!player->getData().health)
 	{
 		return;
 	}
@@ -149,13 +150,11 @@ void World::update()
 			entity->resetWasUpdated();
 		}
 	}
-
-	currentMove = (currentMove + 1) % std::numeric_limits<int>::max();
 }
 
 void World::draw()
 {
-	if (!(*player->getHealth()))
+	if (!player->getData().health)
 	{
 		m_sidebar.draw();
 
@@ -232,7 +231,4 @@ void World::resetStaticData()
 World::~World()
 {
 	this->resetStaticData<std::tuple_size_v<EntitiesClassesList> - 1>();
-	PlayerEntity::resetStaticResources();
-	BushParticlesEntity::resetStaticResources();
-	DiamondParticlesEntity::resetStaticResources();
 }

@@ -15,13 +15,18 @@ public:
 		HOLDING
 	};
 
-	PlayerEntity(const Coords& entityCoords, const Coords* moveEventSource);
+	struct Data
+	{
+		int diamondsCollected = 0;
+		int health = 10;
+	};
+
+	PlayerEntity(const Coords& entityCoords, const Coords* moveEventSource, const Data& playerData);
 
 	void changeDiamonds(int value);
 	void changeHealth(int value);
 
-	const int* getHealth();
-	const int* getDiamonds();
+	const Data& getData();
 
 	static void resetStaticResources();
 
@@ -37,8 +42,7 @@ private:
 
 	char m_pushingTurn = 0;
 
-	int m_diamondsCollected = 0;
-	int m_health = 10;
+	Data m_data;
 
 	static constexpr char turnsNeededToPush = 5;
 

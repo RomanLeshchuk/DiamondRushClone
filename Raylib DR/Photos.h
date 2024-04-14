@@ -75,9 +75,6 @@ public:
 
 	const PreloadedAnimation* getAnimation(const std::string& key);
 
-	static bool isSimpleTextureDrawable(const PreloadedSimpleTexture* texture);
-	static bool isSimpleImageDrawable(const PreloadedSimpleImage* image);
-
 	static bool equalAnimations(const PreloadedAnimation* firstAnimation, const PreloadedAnimation* secondAnimation);
 
 	~Photos();

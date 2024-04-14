@@ -200,20 +200,17 @@ void MovableEntity::move()
 	coords += moveVec;
 }
 
-std::vector<Entity*> MovableEntity::getSolidEntitiesInOffsetCell(const Coords& offset)
+Entity* MovableEntity::getSolidEntityInOffsetCell(const Coords& offset)
 {
-	std::vector<Entity*> solidEntities{};
-
-	Cell& targetCell = world->getCell(coords + offset);
-	for (const std::unique_ptr<Entity>& entityPtr : targetCell)
+	for (const std::unique_ptr<Entity>& entityPtr : world->getCell(coords + offset))
 	{
-		if (entityPtr->getType() < Entity::Type::BUSH_PARTICLES)
+		if (entityPtr->getType() < Entity::Type::BUSH_PARTICLES && entityPtr->getType() != Entity::Type::SHADOW)
 		{
-			solidEntities.push_back(entityPtr.get());
+			return entityPtr.get();
 		}
 	}
 
-	return solidEntities;
+	return nullptr;
 }
 
 SmoothlyMovableEntity::SmoothlyMovableEntity() = default;
@@ -225,9 +222,10 @@ void SmoothlyMovableEntity::move()
 		return;
 	}
 
-	for (Entity* entity : this->MovableEntity::getSolidEntitiesInOffsetCell(moveVec))
+	Entity* nextEntity = this->MovableEntity::getSolidEntityInOffsetCell(moveVec);
+	if (nextEntity)
 	{
-		entity->destroy();
+		nextEntity->destroy();
 	}
 
 	Cell::iterator prevIt = world->getCell(coords).find(type);
@@ -242,29 +240,30 @@ void SmoothlyMovableEntity::move()
 	coords += moveVec;
 }
 
-std::vector<Entity*> SmoothlyMovableEntity::getSolidEntitiesInOffsetCell(const Coords& offset)
+Entity* SmoothlyMovableEntity::getSolidEntityInOffsetCell(const Coords& offset)
 {
-	std::vector<Entity*> solidEntities{};
+	Entity* anyShadow = nullptr;
 
-	Cell& targetCell = world->getCell(coords + offset);
-	for (const std::unique_ptr<Entity>& entityPtr : targetCell)
+	for (const std::unique_ptr<Entity>& entityPtr : world->getCell(coords + offset))
 	{
 		if (entityPtr->getType() < Entity::Type::BUSH_PARTICLES)
 		{
 			if (entityPtr->getType() == Entity::Type::SHADOW)
 			{
 				Shadow* shadow = dynamic_cast<Shadow*>(entityPtr.get());
-				if (shadow->shadowOf->moveVec.isCovering(offset))
+				if (!shadow->shadowOf->moveVec.isCovering(offset))
 				{
-					continue;
+					anyShadow = shadow;
 				}
 			}
-
-			solidEntities.push_back(entityPtr.get());
+			else
+			{
+				return entityPtr.get();
+			}
 		}
 	}
 
-	return solidEntities;
+	return anyShadow;
 }
 
 void SmoothlyMovableEntity::calcDrawState()
@@ -355,8 +354,8 @@ void FallingEntity::move()
 bool FallingEntity::push(char direction)
 {
 	if (moveVec != Movement<1>::NONE
-		|| !this->getSolidEntitiesInOffsetCell({ direction, 0 }).empty()
-		|| this->getSolidEntitiesInOffsetCell(Movement<1>::DOWN).empty())
+		|| this->getSolidEntityInOffsetCell({ direction, 0 })
+		|| !this->getSolidEntityInOffsetCell(Movement<1>::DOWN))
 	{
 		return false;
 	}
@@ -381,7 +380,7 @@ void FallingEntity::calcUpdateState()
 {
 	moveVec = Movement<1>::NONE;
 
-	std::vector<Entity*> downCellSolidEntities = this->getSolidEntitiesInOffsetCell(Movement<1>::DOWN);
+	Entity* downCellSolidEntity = this->getSolidEntityInOffsetCell(Movement<1>::DOWN);
 
 	if (staggeringLeft == -1)
 	{
@@ -391,17 +390,15 @@ void FallingEntity::calcUpdateState()
 	{
 		staggeringRight = 0;
 	}
-
-	if (downCellSolidEntities.empty() || (fallHeight
-		&& (coords + Movement<1>::DOWN == world->player->coords - world->player->moveVec)))
+	if (!downCellSolidEntity)
 	{
 		moveVec = Movement<1>::DOWN;
 	}
 	else
 	{
-		if (downCellSolidEntities.size() == 1 && downCellSolidEntities[0]->getType() >= Entity::Type::ROCK && downCellSolidEntities[0]->getType() <= Entity::Type::DIAMOND)
+		if (downCellSolidEntity && downCellSolidEntity->getType() >= Entity::Type::ROCK && downCellSolidEntity->getType() <= Entity::Type::DIAMOND)
 		{
-			if (this->getSolidEntitiesInOffsetCell(Movement<1>::LEFT).empty() && this->getSolidEntitiesInOffsetCell({ -1, 1 }).empty())
+			if (!this->getSolidEntityInOffsetCell(Movement<1>::LEFT) && !this->getSolidEntityInOffsetCell({ -1, 1 }))
 			{
 				staggeringRight = 0;
 				if (++staggeringLeft == 10)
@@ -410,7 +407,7 @@ void FallingEntity::calcUpdateState()
 					staggeringLeft = -1;
 				}
 			}
-			else if (this->getSolidEntitiesInOffsetCell(Movement<1>::RIGHT).empty() && this->getSolidEntitiesInOffsetCell({ 1, 1 }).empty())
+			else if (!this->getSolidEntityInOffsetCell(Movement<1>::RIGHT) && !this->getSolidEntityInOffsetCell({ 1, 1 }))
 			{
 				staggeringLeft = 0;
 				if (++staggeringRight == 10)
@@ -421,7 +418,7 @@ void FallingEntity::calcUpdateState()
 			}
 			else
 			{
-				if (this->getSolidEntitiesInOffsetCell(Movement<1>::LEFT).empty())
+				if (!this->getSolidEntityInOffsetCell(Movement<1>::LEFT))
 				{
 					staggeringLeft = std::max(staggeringLeft - 2, 0);
 				}
@@ -430,7 +427,7 @@ void FallingEntity::calcUpdateState()
 					staggeringLeft = 0;
 				}
 
-				if (this->getSolidEntitiesInOffsetCell(Movement<1>::RIGHT).empty())
+				if (!this->getSolidEntityInOffsetCell(Movement<1>::RIGHT))
 				{
 					staggeringRight = std::max(staggeringRight - 2, 0);
 				}
@@ -442,7 +439,7 @@ void FallingEntity::calcUpdateState()
 		}
 		else
 		{
-			if (this->getSolidEntitiesInOffsetCell(Movement<1>::LEFT).empty())
+			if (!this->getSolidEntityInOffsetCell(Movement<1>::LEFT))
 			{
 				staggeringLeft = std::max(staggeringLeft - 2, 0);
 			}
@@ -451,7 +448,7 @@ void FallingEntity::calcUpdateState()
 				staggeringLeft = 0;
 			}
 
-			if (this->getSolidEntitiesInOffsetCell(Movement<1>::RIGHT).empty())
+			if (!this->getSolidEntityInOffsetCell(Movement<1>::RIGHT))
 			{
 				staggeringRight = std::max(staggeringRight - 2, 0);
 			}

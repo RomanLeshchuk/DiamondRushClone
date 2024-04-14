@@ -1,1 +1,1 @@
-em++ -o webTarget/game.js libraylib.a -O3 -s USE_GLFW=3 -DPLATFORM_WEB -s ALLOW_MEMORY_GROWTH=1 --preload-file textures main.cpp Entities.cpp Photos.cpp Game.cpp World.cpp EventsHandler.cpp Entity.cpp Cell.cpp Sidebar.cpp Text.cpp
+em++ -o webTarget/game.js libraylib.a -O3 -s USE_GLFW=3 -DPLATFORM_WEB -s ALLOW_MEMORY_GROWTH=1 --preload-file textures main.cpp Entities.cpp Photos.cpp Game.cpp World.cpp EventsHandler.cpp Entity.cpp Cell.cpp Sidebar.cpp Text.cpp Button.cpp Menu.cpp

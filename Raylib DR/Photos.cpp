@@ -131,26 +131,6 @@ const Photos::PreloadedAnimation* Photos::getAnimation(const std::string& key)
 	return nullptr;
 }
 
-bool Photos::isSimpleTextureDrawable(const PreloadedSimpleTexture* texture)
-{
-	if (!texture)
-	{
-		return false;
-	}
-
-	return texture->width && texture->height;
-}
-
-bool Photos::isSimpleImageDrawable(const PreloadedSimpleImage* image)
-{
-	if (!image)
-	{
-		return false;
-	}
-
-	return image->width && image->height;
-}
-
 bool Photos::equalAnimations(const Photos::PreloadedAnimation* firstAnimation, const Photos::PreloadedAnimation* secondAnimation)
 {
 	return firstAnimation->animation.id == secondAnimation->animation.id;

@@ -140,7 +140,7 @@ public:
 	MovableEntity();
 
 	virtual void move();
-	virtual std::vector<Entity*> getSolidEntitiesInOffsetCell(const Coords& offset);
+	virtual Entity* getSolidEntityInOffsetCell(const Coords& offset);
 
 	Coords moveVec = Movement<1>::NONE;
 };
@@ -151,7 +151,7 @@ public:
 	SmoothlyMovableEntity();
 
 	virtual void move() override;
-	virtual std::vector<Entity*> getSolidEntitiesInOffsetCell(const Coords& offset) override;
+	virtual Entity* getSolidEntityInOffsetCell(const Coords& offset) override;
 
 	Shadow* shadow = nullptr;
 

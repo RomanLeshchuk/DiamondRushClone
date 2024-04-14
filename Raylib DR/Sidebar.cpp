@@ -6,12 +6,12 @@
 #include "Entities.h"
 
 Sidebar::Sidebar(World* world) :
-	m_size{ world->sidebarWidth, (2 * world->viewportSize.y + 1) * world->cellSize.y }, m_texture{ world->photos.getSimpleTexture("sidebar") }, m_player{ world->player }
+	m_size{ world->sidebarWidth, (2 * world->viewportSize.y + 1) * world->cellSize.y }, m_texture{ world->photos->getSimpleTexture("sidebar") }, m_player{ world->player }
 {
 	const int defaultFontSize = m_size.y / 22;
 	m_texts.emplace_back("Progress", Coords{ m_size.x / 2, (int)(m_size.y / 15.0f) }, defaultFontSize, BLACK);
-	m_counters.emplace_back("Health", m_player->getHealth(), Coords{ m_size.x / 2, (int)(m_size.y / 2.0f) - defaultFontSize / 2 }, defaultFontSize, BLACK);
-	m_counters.emplace_back("Diamonds", m_player->getDiamonds(), Coords{ m_size.x / 2, (int)(m_size.y / 2.0f) + defaultFontSize / 2 }, defaultFontSize, BLACK);
+	m_counters.emplace_back("Health", &m_player->getData().health, Coords{ m_size.x / 2, (int)(m_size.y / 2.0f) - defaultFontSize / 2 }, defaultFontSize, BLACK);
+	m_counters.emplace_back("Diamonds", &m_player->getData().diamondsCollected, Coords{ m_size.x / 2, (int)(m_size.y / 2.0f) + defaultFontSize / 2 }, defaultFontSize, BLACK);
 }
 
 void Sidebar::draw()

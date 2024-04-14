@@ -46,7 +46,8 @@ namespace SimpleTextures
 	std::unordered_map<std::string, Photos::SimpleTextureData> SimpleTexturesDatas
 	{
 		{ "background", "textures/background.png" },
-		{ "sidebar", "textures/sidebar.png" }
+		{ "sidebar", "textures/sidebar.png" },
+		{ "menu", "textures/menu.png" }
 	};
 }
 
@@ -61,6 +62,10 @@ namespace SimpleImages
 {
 	namespace Levels
 	{
+		std::unordered_map<std::string, Photos::SimpleImageData> StartMenu
+		{
+		};
+
 		std::unordered_map<std::string, Photos::SimpleImageData> Level1
 		{
 			{ "map", "textures/map.png" }
@@ -82,8 +87,15 @@ namespace Animations
 	};
 }
 
-std::array<Photos, 1> LevelsPhotos
+std::array<Photos, 2> LevelsPhotos
 {
+	Photos(
+		&Textures::Themes::Jungle,
+		&SimpleTextures::SimpleTexturesDatas,
+		&Images::ImagesDatas,
+		&SimpleImages::Levels::StartMenu,
+		&Animations::Jungle
+	),
 	Photos(
 		&Textures::Themes::Jungle,
 		&SimpleTextures::SimpleTexturesDatas,

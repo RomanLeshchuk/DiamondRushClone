@@ -149,24 +149,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Entities.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventsHandler.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Photos.cpp" />
     <ClCompile Include="Sidebar.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="data_types.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventsHandler.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Entities.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="options.h" />
     <ClInclude Include="Photos.h" />
     <ClInclude Include="photos_data.h" />

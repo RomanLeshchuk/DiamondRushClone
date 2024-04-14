@@ -13,16 +13,17 @@
 #include "Photos.h"
 #include "Cell.h"
 #include "Sidebar.h"
+#include "Entities.h"
 
 class EventsHandler;
-class PlayerEntity;
 
 class World
 {
 public:
 	World(
-		const Photos& worldPhotos,
-		const EventsHandler* eventsHandler,
+		Photos& worldPhotos,
+		const EventsHandler& eventsHandler,
+		const PlayerEntity::Data& playerData,
 		const Coords& viewportSize,
 		const Coords& updateSize,
 		const Coords& windowSize,
@@ -54,13 +55,12 @@ public:
 	int framesPerMove;
 	Coords pixelsPerMove;
 
-	Photos photos;
+	Photos* photos;
 
 	int currentFrame = 0;
-	int currentMove = 0;
 
 private:
-	void init();
+	void init(const PlayerEntity::Data& playerData);
 
 	template <size_t element>
 	void resetStaticData();

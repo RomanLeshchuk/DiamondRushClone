@@ -10,7 +10,8 @@
 #include "emscripten.h"
 #endif
 
-Game::Game(const std::string& windowTitle, int level)
+Game::Game(const std::string& windowTitle, int level) :
+    m_currentLevel{ level }
 {
     static_assert(Options::MovesPerSecond < Options::FPS);
 
@@ -20,29 +21,32 @@ Game::Game(const std::string& windowTitle, int level)
 void Game::init(const std::string& windowTitle, int level)
 {
     InitWindow(Options::WorldSize.x + Options::SidebarWidth, Options::WorldSize.y, windowTitle.c_str());
-
-    this->createWorld(level);
+    m_eventsHandler = EventsHandler({ Options::SidebarWidth, 0 }, Options::WorldSize);
+    m_photos = LevelsPhotos[0];
+    m_menu = std::make_unique<Menu>(m_photos, m_eventsHandler, Coords{ Options::WorldSize.x + Options::SidebarWidth, Options::WorldSize.y });
 
 #ifdef __EMSCRIPTEN__
     emscripten_set_main_loop_arg(MainloopCallback, (void*)this, Options::FPS, true);
 #else
     SetTargetFPS(Options::FPS);
 
-    while (!WindowShouldClose())
+    while (!WindowShouldClose() && !m_shouldExit)
     {
         this->mainloop();
     }
-#endif
 
     CloseWindow();
+#endif
 }
 
 void Game::createWorld(int level)
 {
-    world.reset();
-    world = std::make_unique<World>(
-        LevelsPhotos[level],
-        &m_eventsHandler,
+    m_photos = LevelsPhotos[level];
+    m_menu->rebindPhotos(m_photos);
+    m_world = std::make_unique<World>(
+        m_photos,
+        m_eventsHandler,
+        m_menu->getPlayerData(),
         Options::ViewportSize,
         Options::UpdateRectSize,
         Options::WorldSize,
@@ -54,21 +58,66 @@ void Game::createWorld(int level)
 
 void Game::mainloop()
 {
-    m_eventsHandler.handleEvents();
+    m_eventsHandler.update();
 
-    if (!(*world->player->getHealth()) && m_eventsHandler.enterEventSource)
+    if (!m_inMenu)
     {
-        this->createWorld(m_currentLevel);
-    }
+        m_eventsHandler.handleEvents();
 
-    if (world->currentFrame == 0)
-    {
-        world->update();
+        if (!m_inMenu && !m_world->player->getData().health && m_eventsHandler.enterEventSource)
+        {
+            m_world.reset();
+            m_menu->setState(Menu::State::MENU);
+            m_inMenu = true;
+        }
+        else if (!m_inMenu && m_eventsHandler.pauseEventSource)
+        {
+            m_menu->setPlayerData(m_world->player->getData());
+            m_menu->setState(Menu::State::PAUSE);
+            m_inMenu = true;
+        }
+        else if (m_world->currentFrame == 0)
+        {
+            m_world->update();
+        }
     }
 
     BeginDrawing();
     ClearBackground(BLACK);
-    world->draw();
+
+    if (m_inMenu)
+    {
+        switch (m_menu->draw())
+        {
+        case Menu::Signal::EXIT:
+#ifdef __EMSCRIPTEN__
+            emscripten_cancel_main_loop();
+            CloseWindow();
+            return;
+#endif
+            m_shouldExit = true;
+            break;
+
+        case Menu::Signal::EXIT_TO_MENU:
+            m_world.reset();
+            m_menu->setPlayerData({});
+            m_menu->setState(Menu::State::MENU);
+            break;
+
+        case Menu::Signal::NEW_GAME:
+            this->createWorld(m_currentLevel);
+            m_inMenu = false;
+            break;
+
+        case Menu::Signal::CONTINUE:
+            m_inMenu = false;
+            break;
+        }
+    }
+    else
+    {
+        m_world->draw();
+    }
 
     EndDrawing();
 }

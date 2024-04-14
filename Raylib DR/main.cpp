@@ -2,7 +2,7 @@
 
 int main()
 {
-	Game game("Game", 0);
+	Game game("Game", 1);
 
 	return 0;
 }
