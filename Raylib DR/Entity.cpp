@@ -10,8 +10,9 @@ Entity::Entity(const Coords& entityCoords, Entity::Type type) :
 {
 }
 
-void Entity::update()
+bool Entity::update()
 {
+	return false;
 }
 
 void Entity::draw()
@@ -48,16 +49,18 @@ Entity::~Entity() = default;
 
 UpdatableEntity::UpdatableEntity() = default;
 
-void UpdatableEntity::update()
+bool UpdatableEntity::update()
 {
 	if (wasUpdated)
 	{
-		return;
+		return false;
 	}
 
 	wasUpdated = true;
 
 	this->calcUpdateState();
+
+	return true;
 }
 
 void UpdatableEntity::resetWasUpdated()
@@ -129,11 +132,11 @@ void AnimatedEntity::setAnimation(const Photos::PreloadedAnimation* animation)
 	m_lastMoveRemainder = 0;
 }
 
-void AnimatedEntity::update()
+bool AnimatedEntity::update()
 {
 	if (wasUpdated)
 	{
-		return;
+		return false;
 	}
 
 	wasUpdated = true;
@@ -146,6 +149,8 @@ void AnimatedEntity::update()
 	{
 		currentAnimationFrameId = 0;
 	}
+
+	return true;
 }
 
 void AnimatedEntity::draw()
@@ -266,6 +271,16 @@ Entity* SmoothlyMovableEntity::getSolidEntityInOffsetCell(const Coords& offset)
 	return anyShadow;
 }
 
+void SmoothlyMovableEntity::calcUpdateState()
+{
+	this->UpdatableEntity::calcUpdateState();
+
+	if (shadow)
+	{
+		shadow->update();
+	}
+}
+
 void SmoothlyMovableEntity::calcDrawState()
 {
 	this->DrawableEntity::calcDrawState();
@@ -288,11 +303,11 @@ TemporaryEntity::TemporaryEntity(int maxUpdates) :
 {
 }
 
-void TemporaryEntity::update()
+bool TemporaryEntity::update()
 {
 	if (wasUpdated)
 	{
-		return;
+		return false;
 	}
 
 	wasUpdated = true;
@@ -300,19 +315,21 @@ void TemporaryEntity::update()
 	if (updatesCounter++ == maxUpdates)
 	{
 		this->destroy();
-		return;
+		return true;
 	}
 
 	this->calcUpdateState();
+
+	return true;
 }
 
 TemporaryAnimatedEntity::TemporaryAnimatedEntity() = default;
 
-void TemporaryAnimatedEntity::update()
+bool TemporaryAnimatedEntity::update()
 {
 	if (wasUpdated)
 	{
-		return;
+		return false;
 	}
 
 	wasUpdated = true;
@@ -320,7 +337,7 @@ void TemporaryAnimatedEntity::update()
 	if (updatesCounter++ == maxUpdates)
 	{
 		this->destroy();
-		return;
+		return true;
 	}
 	
 	this->calcUpdateState();
@@ -331,6 +348,8 @@ void TemporaryAnimatedEntity::update()
 	{
 		currentAnimationFrameId = 0;
 	}
+
+	return true;
 }
 
 FallingEntity::FallingEntity() = default;

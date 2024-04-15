@@ -18,6 +18,8 @@ public:
 	void erase(Entity::Type entityType);
 	void erase(iterator it);
 
+	std::vector<std::unique_ptr<Entity>>& getData();
+
 	iterator begin();
 	iterator end();
 

@@ -40,7 +40,7 @@ public:
 
 	Entity(const Coords& entityCoords, Entity::Type type);
 
-	virtual void update();
+	virtual bool update();
 	virtual void draw();
 
 	Entity::Type getType() const;
@@ -71,7 +71,7 @@ class UpdatableEntity : virtual public Entity
 public:
 	UpdatableEntity();
 
-	virtual void update() override;
+	virtual bool update() override;
 
 	virtual void resetWasUpdated() override;
 
@@ -119,7 +119,7 @@ public:
 
 	void setAnimation(const Photos::PreloadedAnimation* animation);
 
-	virtual void update() override;
+	virtual bool update() override;
 	virtual void draw() override;
 
 protected:
@@ -158,6 +158,7 @@ public:
 	virtual ~SmoothlyMovableEntity() override;
 
 protected:
+	virtual void calcUpdateState() override;
 	virtual void calcDrawState() override;
 };
 
@@ -166,7 +167,7 @@ class TemporaryEntity : virtual public UpdatableEntity
 public:
 	TemporaryEntity(int maxUpdates);
 
-	virtual void update() override;
+	virtual bool update() override;
 
 protected:
 	TemporaryEntity();
@@ -180,7 +181,7 @@ class TemporaryAnimatedEntity : virtual public AnimatedEntity, virtual public Te
 public:
 	TemporaryAnimatedEntity();
 
-	virtual void update() override;
+	virtual bool update() override;
 };
 
 class FallingEntity : virtual public SmoothlyMovableEntity

@@ -47,6 +47,8 @@ void PlayerEntity::resetStaticResources()
 
 void PlayerEntity::calcUpdateState()
 {
+	this->SmoothlyMovableEntity::calcUpdateState();
+
 	m_prevMoveVec = moveVec;
 	moveVec = *m_moveEventSource;
 
@@ -260,6 +262,8 @@ RockEntity::RockEntity(const Coords& entityCoords) :
 
 void RockEntity::calcUpdateState()
 {
+	this->SmoothlyMovableEntity::calcUpdateState();
+
 	if (coords + Movement<1>::DOWN == world->player->coords)
 	{
 		if (fallHeight)
@@ -295,6 +299,8 @@ DiamondEntity::DiamondEntity(const Coords& entityCoords) :
 
 void DiamondEntity::calcUpdateState()
 {
+	this->SmoothlyMovableEntity::calcUpdateState();
+
 	if (fallHeight && coords + Movement<1>::DOWN == world->player->coords)
 	{
 		world->player->changeDiamonds(1);

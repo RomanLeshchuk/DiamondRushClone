@@ -103,32 +103,41 @@ void World::update()
 		return;
 	}
 
-	std::vector<Entity*> updateContainer = { player };
-
+	//std::vector<Entity*> updateContainer = { player };
+	player->update();
 	for (int y = std::min(viewportCoords.y + updateSize.y, m_mapSize.y - 1); y >= std::max(viewportCoords.y - updateSize.y, 0); y--)
 	{
 		for (int x = std::max(viewportCoords.x - updateSize.x, 0); x < std::min(viewportCoords.x + updateSize.x + 1, m_mapSize.x); x++)
 		{
-			for (const std::unique_ptr<Entity>& entityPtr : this->getCell({ x, y }))
+			std::vector<std::unique_ptr<Entity>>& cell = this->getCell({ x, y }).getData();
+			bool updateCell = true;
+			while (updateCell)
 			{
-				if (entityPtr->getType() != Entity::Type::PLAYER)
+				for (int i = 0; i < cell.size() + 1; i++)
 				{
-					updateContainer.push_back(entityPtr.get());
+					if (i == cell.size())
+					{
+						updateCell = false;
+					}
+					else if (cell[i]->getType() != Entity::Type::PLAYER && cell[i]->update())
+					{
+						break;
+					}
 				}
 			}
 		}
 	}
 
-	for (Entity* entity : updateContainer)
+	/*for (Entity* entity : updateContainer)
 	{
 		if (entity)
 		{
 			entity->update();
 		}
-	}
+	}*/
 
-	updateContainer = { player };
-
+	//updateContainer = { player };
+	player->resetWasUpdated();
 	for (int y = std::min(viewportCoords.y + updateSize.y, m_mapSize.y - 1); y >= std::max(viewportCoords.y - updateSize.y, 0); y--)
 	{
 		for (int x = std::max(viewportCoords.x - updateSize.x, 0); x < std::min(viewportCoords.x + updateSize.x + 1, m_mapSize.x); x++)
@@ -137,19 +146,20 @@ void World::update()
 			{
 				if (entityPtr->getType() != Entity::Type::PLAYER)
 				{
-					updateContainer.push_back(entityPtr.get());
+					entityPtr->resetWasUpdated();
+					//updateContainer.push_back(entityPtr.get());
 				}
 			}
 		}
 	}
 
-	for (Entity* entity : updateContainer)
+	/*for (Entity* entity : updateContainer)
 	{
 		if (entity)
 		{
 			entity->resetWasUpdated();
 		}
-	}
+	}*/
 }
 
 void World::draw()
