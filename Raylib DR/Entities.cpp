@@ -25,6 +25,11 @@ PlayerEntity::PlayerEntity(const Coords& entityCoords, const Coords* moveEventSo
 	currentAnimation = m_animationsList[(int)Animations::CALM];
 }
 
+PlayerEntity* PlayerEntity::copyImpl() const
+{
+	return new PlayerEntity(*this);
+}
+
 void PlayerEntity::changeDiamonds(int value)
 {
 	m_data.diamondsCollected += value;
@@ -192,6 +197,11 @@ Shadow::Shadow(const Coords& entityCoords, SmoothlyMovableEntity* const entitySh
 {
 }
 
+Shadow* Shadow::copyImpl() const
+{
+	return new Shadow(*this);
+}
+
 Shadow::~Shadow()
 {
 	shadowOf->shadow = nullptr;
@@ -204,11 +214,21 @@ WallEntity::WallEntity(const Coords& entityCoords) :
 {
 }
 
+WallEntity* WallEntity::copyImpl() const
+{
+	return new WallEntity(*this);
+}
+
 BushEntity::BushEntity(const Coords& entityCoords) :
 	Entity(entityCoords, Entity::Type::BUSH),
 	DrawableEntity(),
 	TexturedEntity(world->photos->getTexture("bush"))
 {
+}
+
+BushEntity* BushEntity::copyImpl() const
+{
+	return new BushEntity(*this);
 }
 
 std::vector<const Photos::PreloadedAnimation*> BushParticlesEntity::m_animationsList{};
@@ -230,6 +250,11 @@ BushParticlesEntity::BushParticlesEntity(const Coords& entityCoords) :
 	currentAnimation = m_animationsList[0];
 }
 
+BushParticlesEntity* BushParticlesEntity::copyImpl() const
+{
+	return new BushParticlesEntity(*this);
+}
+
 void BushParticlesEntity::resetStaticResources()
 {
 	m_animationsList = {};
@@ -242,11 +267,21 @@ WallWayEntity::WallWayEntity(const Coords& entityCoords) :
 {
 }
 
+WallWayEntity* WallWayEntity::copyImpl() const
+{
+	return new WallWayEntity(*this);
+}
+
 WallHiddenWayEntity::WallHiddenWayEntity(const Coords& entityCoords) :
 	Entity(entityCoords, Entity::Type::WALL_HIDDEN_WAY),
 	DrawableEntity(),
 	TexturedEntity(world->photos->getTexture("wall"))
 {
+}
+
+WallHiddenWayEntity* WallHiddenWayEntity::copyImpl() const
+{
+	return new WallHiddenWayEntity(*this);
 }
 
 RockEntity::RockEntity(const Coords& entityCoords) :
@@ -258,6 +293,11 @@ RockEntity::RockEntity(const Coords& entityCoords) :
 	SmoothlyMovableEntity(),
 	FallingEntity()
 {
+}
+
+RockEntity* RockEntity::copyImpl() const
+{
+	return new RockEntity(*this);
 }
 
 void RockEntity::calcUpdateState()
@@ -297,6 +337,11 @@ DiamondEntity::DiamondEntity(const Coords& entityCoords) :
 {
 }
 
+DiamondEntity* DiamondEntity::copyImpl() const
+{
+	return new DiamondEntity(*this);
+}
+
 void DiamondEntity::calcUpdateState()
 {
 	this->SmoothlyMovableEntity::calcUpdateState();
@@ -330,7 +375,24 @@ DiamondParticlesEntity::DiamondParticlesEntity(const Coords& entityCoords) :
 	currentAnimation = m_animationsList[0];
 }
 
+DiamondParticlesEntity* DiamondParticlesEntity::copyImpl() const
+{
+	return new DiamondParticlesEntity(*this);
+}
+
 void DiamondParticlesEntity::resetStaticResources()
 {
 	m_animationsList = {};
+}
+
+FinishEntity::FinishEntity(const Coords& entityCoords) :
+	Entity(entityCoords, Entity::Type::FINISH),
+	DrawableEntity(),
+	TexturedEntity(world->photos->getTexture("finish"))
+{
+}
+
+FinishEntity* FinishEntity::copyImpl() const
+{
+	return new FinishEntity(*this);
 }

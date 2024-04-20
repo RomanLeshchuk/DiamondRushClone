@@ -39,14 +39,14 @@ void Game::init(const std::string& windowTitle, int level)
 #endif
 }
 
-void Game::createWorld(int level)
+void Game::createWorld()
 {
-    m_photos = LevelsPhotos[level];
+    m_photos = LevelsPhotos[m_currentLevel];
     m_menu->rebindPhotos(m_photos);
     m_world = std::make_unique<World>(
         m_photos,
         m_eventsHandler,
-        m_menu->getPlayerData(),
+        m_playerData,
         Options::ViewportSize,
         Options::UpdateRectSize,
         Options::WorldSize,
@@ -64,13 +64,19 @@ void Game::mainloop()
     {
         m_eventsHandler.handleEvents();
 
-        if (!m_inMenu && !m_world->player->getData().health && m_eventsHandler.enterEventSource)
+        if (m_world->player->getData().health == 0 && m_eventsHandler.enterEventSource)
         {
             m_world.reset();
             m_menu->setState(Menu::State::MENU);
             m_inMenu = true;
         }
-        else if (!m_inMenu && m_eventsHandler.pauseEventSource)
+        else if (m_world->player->getData().health == 0 && m_eventsHandler.enterEventSource)
+        {
+            m_world.reset();
+            m_menu->setState(Menu::State::MENU);
+            m_inMenu = true;
+        }
+        else if (m_eventsHandler.pauseEventSource)
         {
             m_menu->setPlayerData(m_world->player->getData());
             m_menu->setState(Menu::State::PAUSE);
@@ -100,16 +106,33 @@ void Game::mainloop()
 
         case Menu::Signal::EXIT_TO_MENU:
             m_world.reset();
-            m_menu->setPlayerData({});
+            m_menu->setPlayerData(m_playerData);
             m_menu->setState(Menu::State::MENU);
             break;
 
         case Menu::Signal::NEW_GAME:
-            this->createWorld(m_currentLevel);
+            m_currentLevel = 1;
+            m_playerData = {};
+            this->createWorld();
             m_inMenu = false;
             break;
 
         case Menu::Signal::CONTINUE:
+            m_inMenu = false;
+            break;
+
+        case Menu::Signal::SAVE:
+            m_world->saveCheckpoint();
+            break;
+
+        case Menu::Signal::LOAD:
+            m_world->loadCheckpoint();
+            m_menu->setPlayerData(m_world->player->getData());
+            break;
+
+        case Menu::Signal::LAST_LEVEL:
+            m_world.reset();
+            this->createWorld();
             m_inMenu = false;
             break;
         }

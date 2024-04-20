@@ -19,6 +19,7 @@ public:
 	{
 		int diamondsCollected = 0;
 		int health = 10;
+		int level = 1;
 	};
 
 	PlayerEntity(const Coords& entityCoords, const Coords* moveEventSource, const Data& playerData);
@@ -31,6 +32,8 @@ public:
 	static void resetStaticResources();
 
 protected:
+	virtual PlayerEntity* copyImpl() const override;
+
 	virtual void calcUpdateState() override;
 
 private:
@@ -54,21 +57,30 @@ class Shadow final : public TemporaryEntity
 public:
 	Shadow(const Coords& entityCoords, SmoothlyMovableEntity* const entityShadowOf);
 
-	SmoothlyMovableEntity* const shadowOf;
+	SmoothlyMovableEntity* shadowOf;
 
 	virtual ~Shadow() override;
+
+protected:
+	virtual Shadow* copyImpl() const override;
 };
 
 class WallEntity final : public TexturedEntity
 {
 public:
 	WallEntity(const Coords& entityCoords);
+
+protected:
+	virtual WallEntity* copyImpl() const override;
 };
 
 class BushEntity final : public TexturedEntity
 {
 public:
 	BushEntity(const Coords& entityCoords);
+
+protected:
+	virtual BushEntity* copyImpl() const override;
 };
 
 class BushParticlesEntity final : public TemporaryAnimatedEntity
@@ -78,6 +90,9 @@ public:
 
 	static void resetStaticResources();
 
+protected:
+	virtual BushParticlesEntity* copyImpl() const override;
+
 private:
 	static std::vector<const Photos::PreloadedAnimation*> m_animationsList;
 };
@@ -86,12 +101,18 @@ class WallWayEntity final : public TexturedEntity
 {
 public:
 	WallWayEntity(const Coords& entityCoords);
+
+protected:
+	virtual WallWayEntity* copyImpl() const override;
 };
 
 class WallHiddenWayEntity final : public TexturedEntity
 {
 public:
 	WallHiddenWayEntity(const Coords& entityCoords);
+
+protected:
+	virtual WallHiddenWayEntity* copyImpl() const override;
 };
 
 class RockEntity final : public FallingRotatableEntity, public TexturedEntity
@@ -100,6 +121,8 @@ public:
 	RockEntity(const Coords& entityCoords);
 
 protected:
+	virtual RockEntity* copyImpl() const override;
+
 	virtual void calcUpdateState() override;
 
 	int m_holdingTurn = 0;
@@ -111,6 +134,8 @@ public:
 	DiamondEntity(const Coords& entityCoords);
 
 protected:
+	virtual DiamondEntity* copyImpl() const override;
+
 	virtual void calcUpdateState() override;
 };
 
@@ -121,8 +146,20 @@ public:
 
 	static void resetStaticResources();
 
+protected:
+	virtual DiamondParticlesEntity* copyImpl() const override;
+
 private:
 	static std::vector<const Photos::PreloadedAnimation*> m_animationsList;
 };
 
-using EntitiesClassesList = std::tuple<PlayerEntity, Shadow, WallEntity, BushEntity, BushParticlesEntity, WallWayEntity, WallHiddenWayEntity, RockEntity, DiamondEntity, DiamondParticlesEntity>;
+class FinishEntity final : public TexturedEntity
+{
+public:
+	FinishEntity(const Coords& entityCoords);
+
+protected:
+	virtual FinishEntity* copyImpl() const override;
+};
+
+using EntitiesClassesList = std::tuple<PlayerEntity, Shadow, WallEntity, BushEntity, BushParticlesEntity, WallWayEntity, WallHiddenWayEntity, RockEntity, DiamondEntity, DiamondParticlesEntity, FinishEntity>;

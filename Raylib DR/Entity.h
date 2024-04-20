@@ -19,12 +19,10 @@ class Entity
 public:
 	enum class Type
 	{
+		FINISH,
+
 		WALL,
 		BUSH,
-		CHECKPOINT,
-		FINISH,
-		SWITCHER,
-		SWITCHING,
 
 		ROCK,
 		DIAMOND,
@@ -40,6 +38,8 @@ public:
 
 	Entity(const Coords& entityCoords, Entity::Type type);
 
+	std::unique_ptr<Entity> copy() const;
+
 	virtual bool update();
 	virtual void draw();
 
@@ -53,6 +53,7 @@ public:
 	static void resetStaticResources();
 
 	Coords coords;
+	bool fromCheckpoint = false;
 
 	virtual ~Entity();
 
@@ -60,6 +61,8 @@ public:
 
 protected:
 	Entity();
+
+	virtual Entity* copyImpl() const = 0;
 
 	inline static World* world = nullptr;
 

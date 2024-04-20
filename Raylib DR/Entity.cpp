@@ -10,6 +10,15 @@ Entity::Entity(const Coords& entityCoords, Entity::Type type) :
 {
 }
 
+std::unique_ptr<Entity> Entity::copy() const
+{
+	Entity* copyEntity = this->copyImpl();
+
+	copyEntity->fromCheckpoint = !copyEntity->fromCheckpoint;
+
+	return std::unique_ptr<Entity>(copyEntity);
+}
+
 bool Entity::update()
 {
 	return false;
@@ -30,14 +39,17 @@ void Entity::resetWasUpdated()
 
 void Entity::destroy()
 {
-	world->getCell(coords).erase(type);
+	world->getCell(coords, fromCheckpoint).erase(type);
 }
 
 void Entity::replace(std::unique_ptr<Entity> newEntity)
 {
 	newEntity->update();
+
 	Coords newEntityCoords = newEntity->coords;
-	world->getCell(newEntityCoords).add(std::move(newEntity));
+	bool newEntityFromCheckpoint = newEntity->fromCheckpoint;
+	world->getCell(newEntityCoords, newEntityFromCheckpoint).add(std::move(newEntity));
+	
 	this->destroy();
 }
 
@@ -209,7 +221,7 @@ Entity* MovableEntity::getSolidEntityInOffsetCell(const Coords& offset)
 {
 	for (const std::unique_ptr<Entity>& entityPtr : world->getCell(coords + offset))
 	{
-		if (entityPtr->getType() < Entity::Type::BUSH_PARTICLES && entityPtr->getType() != Entity::Type::SHADOW)
+		if (entityPtr->getType() > Entity::Type::FINISH && entityPtr->getType() < Entity::Type::BUSH_PARTICLES)
 		{
 			return entityPtr.get();
 		}
@@ -251,7 +263,7 @@ Entity* SmoothlyMovableEntity::getSolidEntityInOffsetCell(const Coords& offset)
 
 	for (const std::unique_ptr<Entity>& entityPtr : world->getCell(coords + offset))
 	{
-		if (entityPtr->getType() < Entity::Type::BUSH_PARTICLES)
+		if (entityPtr->getType() > Entity::Type::FINISH && entityPtr->getType() < Entity::Type::BUSH_PARTICLES)
 		{
 			if (entityPtr->getType() == Entity::Type::SHADOW)
 			{
@@ -273,8 +285,6 @@ Entity* SmoothlyMovableEntity::getSolidEntityInOffsetCell(const Coords& offset)
 
 void SmoothlyMovableEntity::calcUpdateState()
 {
-	this->UpdatableEntity::calcUpdateState();
-
 	if (shadow)
 	{
 		shadow->update();
@@ -409,6 +419,7 @@ void FallingEntity::calcUpdateState()
 	{
 		staggeringRight = 0;
 	}
+
 	if (!downCellSolidEntity)
 	{
 		moveVec = Movement<1>::DOWN;
@@ -417,7 +428,7 @@ void FallingEntity::calcUpdateState()
 	{
 		if (downCellSolidEntity && downCellSolidEntity->getType() >= Entity::Type::ROCK && downCellSolidEntity->getType() <= Entity::Type::DIAMOND)
 		{
-			if (!this->getSolidEntityInOffsetCell(Movement<1>::LEFT) && !this->getSolidEntityInOffsetCell({ -1, 1 }))
+			if (!this->getSolidEntityInOffsetCell(Movement<1>::LEFT) && !this->getSolidEntityInOffsetCell(Movement<1>::LEFT + Movement<1>::DOWN))
 			{
 				staggeringRight = 0;
 				if (++staggeringLeft == 10)
@@ -426,7 +437,7 @@ void FallingEntity::calcUpdateState()
 					staggeringLeft = -1;
 				}
 			}
-			else if (!this->getSolidEntityInOffsetCell(Movement<1>::RIGHT) && !this->getSolidEntityInOffsetCell({ 1, 1 }))
+			else if (!this->getSolidEntityInOffsetCell(Movement<1>::RIGHT) && !this->getSolidEntityInOffsetCell(Movement<1>::RIGHT + Movement<1>::DOWN))
 			{
 				staggeringLeft = 0;
 				if (++staggeringRight == 10)
@@ -475,6 +486,12 @@ void FallingEntity::calcUpdateState()
 			{
 				staggeringRight = 0;
 			}
+		}
+
+		Entity* aboveLeftEntity = this->getSolidEntityInOffsetCell(Movement<1>::LEFT + Movement<1>::UP);
+		if (staggeringLeft > 0 && aboveLeftEntity && aboveLeftEntity->getType() >= Entity::Type::ROCK && aboveLeftEntity->getType() <= Entity::Type::DIAMOND)
+		{
+			staggeringLeft = 0;
 		}
 	}
 

@@ -26,11 +26,6 @@ void Cell::erase(iterator it)
 	m_data.erase(it);
 }
 
-std::vector<std::unique_ptr<Entity>>& Cell::getData()
-{
-	return m_data;
-}
-
 Cell::iterator Cell::begin()
 {
 	return m_data.begin();
@@ -39,4 +34,14 @@ Cell::iterator Cell::begin()
 Cell::iterator Cell::end()
 {
 	return m_data.end();
+}
+
+Cell::const_iterator Cell::begin() const
+{
+	return m_data.cbegin();
+}
+
+Cell::const_iterator Cell::end() const
+{
+	return m_data.cend();
 }

@@ -81,6 +81,10 @@ void World::init(const PlayerEntity::Data& playerData)
 			{
 				entity = std::make_unique<DiamondEntity>(Coords{ x, y });
 			}
+			else if (color == Color{ 255, 255, 0, 255 })
+			{
+				entity = std::make_unique<FinishEntity>(Coords{ x, y });
+			}
 			else
 			{
 				m_matrix.emplace_back();
@@ -94,6 +98,8 @@ void World::init(const PlayerEntity::Data& playerData)
 	}
 
 	UnloadImageColors(colors);
+
+	this->saveCheckpoint();
 }
 
 void World::update()
@@ -103,40 +109,33 @@ void World::update()
 		return;
 	}
 
-	//std::vector<Entity*> updateContainer = { player };
 	player->update();
 	for (int y = std::min(viewportCoords.y + updateSize.y, m_mapSize.y - 1); y >= std::max(viewportCoords.y - updateSize.y, 0); y--)
 	{
 		for (int x = std::max(viewportCoords.x - updateSize.x, 0); x < std::min(viewportCoords.x + updateSize.x + 1, m_mapSize.x); x++)
 		{
-			std::vector<std::unique_ptr<Entity>>& cell = this->getCell({ x, y }).getData();
+			Cell& cell = this->getCell({ x, y });
 			bool updateCell = true;
 			while (updateCell)
 			{
-				for (int i = 0; i < cell.size() + 1; i++)
+				auto it = cell.begin();
+				while (true)
 				{
-					if (i == cell.size())
+					if (it == cell.end())
 					{
 						updateCell = false;
+						break;
 					}
-					else if (cell[i]->getType() != Entity::Type::PLAYER && cell[i]->update())
+					else if ((*it)->getType() != Entity::Type::PLAYER && (*it)->update())
 					{
 						break;
 					}
+					it++;
 				}
 			}
 		}
 	}
 
-	/*for (Entity* entity : updateContainer)
-	{
-		if (entity)
-		{
-			entity->update();
-		}
-	}*/
-
-	//updateContainer = { player };
 	player->resetWasUpdated();
 	for (int y = std::min(viewportCoords.y + updateSize.y, m_mapSize.y - 1); y >= std::max(viewportCoords.y - updateSize.y, 0); y--)
 	{
@@ -147,19 +146,10 @@ void World::update()
 				if (entityPtr->getType() != Entity::Type::PLAYER)
 				{
 					entityPtr->resetWasUpdated();
-					//updateContainer.push_back(entityPtr.get());
 				}
 			}
 		}
 	}
-
-	/*for (Entity* entity : updateContainer)
-	{
-		if (entity)
-		{
-			entity->resetWasUpdated();
-		}
-	}*/
 }
 
 void World::draw()
@@ -220,9 +210,92 @@ void World::draw()
 	currentFrame = (currentFrame + 1) % framesPerMove;
 }
 
-Cell& World::getCell(const Coords& cellPos)
+Cell& World::getCell(const Coords& cellPos, bool fromCheckpoint)
 {
-	return m_matrix[cellPos.y * m_mapSize.x + cellPos.x];
+	return fromCheckpoint ? m_checkpointData.matrix[cellPos.y * m_mapSize.x + cellPos.x] : m_matrix[cellPos.y * m_mapSize.x + cellPos.x];
+}
+
+void World::saveCheckpoint()
+{
+	m_checkpointData.matrix.clear();
+	m_checkpointData.matrix.resize(m_mapSize.x * m_mapSize.y);
+
+	for (int i = 0; i < m_matrix.size(); i++)
+	{
+		for (const std::unique_ptr<Entity>& entity : m_matrix[i])
+		{
+			if (entity->type == Entity::Type::SHADOW)
+			{
+				continue;
+			}
+
+			std::unique_ptr<Entity> newEntity = entity->copy();
+			Entity* newEntityPtr = newEntity.get();
+
+			m_checkpointData.matrix[i].add(std::move(newEntity));
+
+			SmoothlyMovableEntity* smoothEntity = dynamic_cast<SmoothlyMovableEntity*>(entity.get());
+			if (smoothEntity && smoothEntity->shadow)
+			{
+				SmoothlyMovableEntity* newSmoothEntity = dynamic_cast<SmoothlyMovableEntity*>(newEntityPtr);
+
+				std::unique_ptr<Entity> newShadowEntity = smoothEntity->shadow->copy();
+				Shadow* newShadowPtr = dynamic_cast<Shadow*>(newShadowEntity.get());
+				
+				getCell(newShadowPtr->coords, true).add(std::move(newShadowEntity));
+
+				newSmoothEntity->shadow = newShadowPtr;
+				newShadowPtr->shadowOf = newSmoothEntity;
+			}
+		}
+	}
+
+	m_checkpointData.player = dynamic_cast<PlayerEntity*>(getCell(player->coords, true).find(Entity::Type::PLAYER)->get());
+	m_checkpointData.frame = currentFrame;
+	m_checkpointData.viewportCoords = viewportCoords;
+	m_checkpointData.viewportMoveVec = viewportMoveVec;
+}
+
+void World::loadCheckpoint()
+{
+	m_matrix.clear();
+	m_matrix.resize(m_mapSize.x * m_mapSize.y);
+
+	for (int i = 0; i < m_checkpointData.matrix.size(); i++)
+	{
+		for (const std::unique_ptr<Entity>& entity : m_checkpointData.matrix[i])
+		{
+			if (entity->type == Entity::Type::SHADOW)
+			{
+				continue;
+			}
+
+			std::unique_ptr<Entity> newEntity = entity->copy();
+			Entity* newEntityPtr = newEntity.get();
+
+			m_matrix[i].add(std::move(newEntity));
+
+			SmoothlyMovableEntity* smoothEntity = dynamic_cast<SmoothlyMovableEntity*>(entity.get());
+			if (smoothEntity && smoothEntity->shadow)
+			{
+				SmoothlyMovableEntity* newSmoothEntity = dynamic_cast<SmoothlyMovableEntity*>(newEntityPtr);
+
+				std::unique_ptr<Entity> newShadowEntity = smoothEntity->shadow->copy();
+				Shadow* newShadowPtr = dynamic_cast<Shadow*>(newShadowEntity.get());
+
+				getCell(newShadowPtr->coords).add(std::move(newShadowEntity));
+
+				newSmoothEntity->shadow = newShadowPtr;
+				newShadowPtr->shadowOf = newSmoothEntity;
+			}
+		}
+	}
+
+	player = dynamic_cast<PlayerEntity*>(getCell(m_checkpointData.player->coords).find(Entity::Type::PLAYER)->get());
+	m_sidebar = Sidebar(this);
+	currentFrame = m_checkpointData.frame;
+	viewportCoords = m_checkpointData.viewportCoords;
+	viewportMoveVec = m_checkpointData.viewportMoveVec;
 }
 
 template <>

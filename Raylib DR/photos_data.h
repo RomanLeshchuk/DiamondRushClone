@@ -36,7 +36,8 @@ namespace Textures
 			{ "bush", { "textures/bush.png", Default.stretch, Default.offset, Default.flip } },
 			{ "rock", { "textures/rock.png", Default.stretch, Default.offset, Default.flip } },
 			{ "wall_way", { "textures/wall_way.png", Default.stretch, Default.offset, Default.flip } },
-			{ "diamond", { "textures/diamond.png", Default.stretch, Default.offset, Default.flip } }
+			{ "diamond", { "textures/diamond.png", Default.stretch, Default.offset, Default.flip } },
+			{ "finish", { "textures/finish.png", Default.stretch, Default.offset, Default.flip } }
 		};
 	}
 }

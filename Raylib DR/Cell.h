@@ -5,11 +5,13 @@
 #include <vector>
 
 #include "Entity.h"
+#include "Entities.h"
 
 class Cell
 {
 public:
 	using iterator = std::vector<std::unique_ptr<Entity>>::iterator;
+	using const_iterator = std::vector<std::unique_ptr<Entity>>::const_iterator;
 
 	Cell();
 
@@ -18,10 +20,10 @@ public:
 	void erase(Entity::Type entityType);
 	void erase(iterator it);
 
-	std::vector<std::unique_ptr<Entity>>& getData();
-
 	iterator begin();
 	iterator end();
+	const_iterator begin() const;
+	const_iterator end() const;
 
 private:
 	std::vector<std::unique_ptr<Entity>> m_data{};

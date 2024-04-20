@@ -18,7 +18,7 @@ public:
 
 private:
 	void init(const std::string& windowTitle, int level);
-	void createWorld(int level);
+	void createWorld();
 
 	std::unique_ptr<World> m_world = nullptr;
 	std::unique_ptr<Menu> m_menu = nullptr;
@@ -28,6 +28,7 @@ private:
 	int m_currentLevel;
 	Photos m_photos{};
 	EventsHandler m_eventsHandler{};
+	PlayerEntity::Data m_playerData{};
 };
 
 #ifdef __EMSCRIPTEN__

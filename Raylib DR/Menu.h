@@ -11,6 +11,7 @@ class Menu
 public:
 	enum class State
 	{
+		START_MENU,
 		MENU,
 		PAUSE
 	};
@@ -21,6 +22,9 @@ public:
 		EXIT_TO_MENU,
 		NEW_GAME,
 		CONTINUE,
+		SAVE,
+		LOAD,
+		LAST_LEVEL,
 		NONE
 	};
 
@@ -43,5 +47,6 @@ private:
 	const Photos::PreloadedSimpleTexture* m_texture;
 	const EventsHandler* m_eventsHandler;
 	std::vector<Text> m_texts{};
+	std::vector<Counter> m_counters{};
 	std::vector<Button> m_buttons{};
 };
