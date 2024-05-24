@@ -1,59 +1,460 @@
 ﻿  Scanning sources for module dependencies...
-  World.cpp
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(138,1): warning C4250: 'AnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(79,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(166,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(77,15): message : see declaration of 'UpdatableEntity::update'
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(166,1): warning C4250: 'SmoothlyMovableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(92,15): message : see declaration of 'DrawableEntity::draw'
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(166,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(79,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(188,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(126,15): message : see declaration of 'AnimatedEntity::draw'
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(188,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(79,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(212,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(77,15): message : see declaration of 'UpdatableEntity::update'
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(212,1): warning C4250: 'FallingEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(92,15): message : see declaration of 'DrawableEntity::draw'
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(212,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(79,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(227,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(77,15): message : see declaration of 'UpdatableEntity::update'
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(227,1): warning C4250: 'FallingRotatableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(92,15): message : see declaration of 'DrawableEntity::draw'
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(227,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(79,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+  Cell.cpp
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(134,1): warning C4250: 'AnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::update' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(125,15): message : see declaration of 'AnimatedEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(121,15): message : see declaration of 'AnimatedEntity::update'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(126,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(79,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'SmoothlyMovableEntity::SmoothlyMovableEntity::calcDrawState' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(165,15): message : see declaration of 'SmoothlyMovableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(161,15): message : see declaration of 'SmoothlyMovableEntity::calcDrawState'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(126,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(79,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(77,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(110,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(79,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(77,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(110,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(79,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(126,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
 D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
-D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(79,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+  Entities.cpp
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(134,1): warning C4250: 'AnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(121,15): message : see declaration of 'AnimatedEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'SmoothlyMovableEntity::SmoothlyMovableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(161,15): message : see declaration of 'SmoothlyMovableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+  Entity.cpp
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(134,1): warning C4250: 'AnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(121,15): message : see declaration of 'AnimatedEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'SmoothlyMovableEntity::SmoothlyMovableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(161,15): message : see declaration of 'SmoothlyMovableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+  Game.cpp
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(134,1): warning C4250: 'AnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(121,15): message : see declaration of 'AnimatedEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'SmoothlyMovableEntity::SmoothlyMovableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(161,15): message : see declaration of 'SmoothlyMovableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+  Menu.cpp
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(134,1): warning C4250: 'AnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(121,15): message : see declaration of 'AnimatedEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'SmoothlyMovableEntity::SmoothlyMovableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(161,15): message : see declaration of 'SmoothlyMovableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+  Photos.cpp
+  Sidebar.cpp
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(134,1): warning C4250: 'AnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(121,15): message : see declaration of 'AnimatedEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'SmoothlyMovableEntity::SmoothlyMovableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(161,15): message : see declaration of 'SmoothlyMovableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+  World.cpp
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(134,1): warning C4250: 'AnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(121,15): message : see declaration of 'AnimatedEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'SmoothlyMovableEntity::SmoothlyMovableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(161,15): message : see declaration of 'SmoothlyMovableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+  main.cpp
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(134,1): warning C4250: 'AnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(162,1): warning C4250: 'SmoothlyMovableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(184,1): warning C4250: 'TemporaryAnimatedEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(208,1): warning C4250: 'FallingEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'DrawableEntity::DrawableEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(88,15): message : see declaration of 'DrawableEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(223,1): warning C4250: 'FallingRotatableEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(121,15): message : see declaration of 'AnimatedEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(53,1): warning C4250: 'PlayerEntity': inherits 'SmoothlyMovableEntity::SmoothlyMovableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(161,15): message : see declaration of 'SmoothlyMovableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(98,1): warning C4250: 'BushParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(129,1): warning C4250: 'RockEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::update' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(73,15): message : see declaration of 'UpdatableEntity::update'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'TexturedEntity::TexturedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(106,15): message : see declaration of 'TexturedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(140,1): warning C4250: 'DiamondEntity': inherits 'FallingRotatableEntity::FallingRotatableEntity::calcDrawState' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(219,15): message : see declaration of 'FallingRotatableEntity::calcDrawState'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'AnimatedEntity::AnimatedEntity::draw' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(122,15): message : see declaration of 'AnimatedEntity::draw'
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entities.h(154,1): warning C4250: 'DiamondParticlesEntity': inherits 'UpdatableEntity::UpdatableEntity::resetWasUpdated' via dominance
+D:\Programming\C++\Raylib\Raylib DR\Raylib DR\Entity.h(75,15): message : see declaration of 'UpdatableEntity::resetWasUpdated'
+  Generating Code...
   Raylib DR.vcxproj -> D:\Programming\C++\Raylib\Raylib DR\x64\Debug\Raylib DR.exe

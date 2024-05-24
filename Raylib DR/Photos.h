@@ -77,6 +77,8 @@ public:
 
 	static bool equalAnimations(const PreloadedAnimation* firstAnimation, const PreloadedAnimation* secondAnimation);
 
+	void clear() const;
+
 	~Photos();
 
 private:
@@ -94,6 +96,5 @@ private:
 	std::unordered_map<std::string, PreloadedImage> m_preloadedImages{};
 	std::unordered_map<std::string, Image> m_preloadedSimpleImages{};
 
-	std::unordered_map<std::string, Texture> m_preloadedAnimationsTextures{};
 	std::unordered_map<std::string, PreloadedAnimation> m_preloadedAnimations{};
 };

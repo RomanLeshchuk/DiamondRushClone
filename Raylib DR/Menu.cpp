@@ -31,11 +31,12 @@ void Menu::setState(Menu::State state)
 		};
 		m_counters = {
 			{ "Diamonds", &m_playerData.diamondsCollected, Coords{ m_size.x / 2, (int)(m_size.y / 1.35f) }, defaultFontSize, BLACK },
-			{ "Health", &m_playerData.health, Coords{ m_size.x / 2, (int)(m_size.y / 1.35f) + (int)(defaultFontSize * 1.2f) }, defaultFontSize, BLACK }
+			{ "Health", &m_playerData.health, Coords{ m_size.x / 2, (int)(m_size.y / 1.35f) + (int)(defaultFontSize * 1.2f) }, defaultFontSize, BLACK },
+			{ "Level", &m_playerData.level, Coords{ m_size.x / 2, (int)(m_size.y / 1.35f) + (int)(defaultFontSize * 2.4f) }, defaultFontSize, BLACK }
 		};
 		m_buttons = {
 			{ Text("New game", Coords{ m_size.x / 2, (int)(m_size.y / 2.6f) - defaultFontSize * 2 }, defaultFontSize, BLACK), DARKGRAY, GRAY },
-			{ Text("Continue from last level", Coords{ m_size.x / 2, (int)(m_size.y / 2.6f) }, defaultFontSize, BLACK), DARKGRAY, GRAY },
+			{ Text("Continue game", Coords{ m_size.x / 2, (int)(m_size.y / 2.6f) }, defaultFontSize, BLACK), DARKGRAY, GRAY },
 			{ Text("Exit", Coords{ m_size.x / 2, (int)(m_size.y / 2.6f) + defaultFontSize * 2 }, defaultFontSize, BLACK), DARKGRAY, RED }
 		};
 		break;
@@ -47,7 +48,8 @@ void Menu::setState(Menu::State state)
 		};
 		m_counters = {
 			{ "Diamonds", &m_playerData.diamondsCollected, Coords{ m_size.x / 2, (int)(m_size.y / 1.35f) }, defaultFontSize, BLACK },
-			{ "Health", &m_playerData.health, Coords{ m_size.x / 2, (int)(m_size.y / 1.35f) + (int)(defaultFontSize * 1.2f) }, defaultFontSize, BLACK }
+			{ "Health", &m_playerData.health, Coords{ m_size.x / 2, (int)(m_size.y / 1.35f) + (int)(defaultFontSize * 1.2f) }, defaultFontSize, BLACK },
+			{ "Level", &m_playerData.level, Coords{ m_size.x / 2, (int)(m_size.y / 1.35f) + (int)(defaultFontSize * 2.4f) }, defaultFontSize, BLACK }
 		};
 		m_buttons = {
 			{ Text("Continue", Coords{ m_size.x / 2, (int)(m_size.y / 4.5f) }, defaultFontSize, BLACK), DARKGRAY, GRAY },

@@ -12,12 +12,12 @@
 class Game
 {
 public:
-    Game(const std::string& windowTitle, int level);
+    Game(const std::string& windowTitle);
 
 	void mainloop();
 
 private:
-	void init(const std::string& windowTitle, int level);
+	void init(const std::string& windowTitle);
 	void createWorld();
 
 	std::unique_ptr<World> m_world = nullptr;
@@ -25,7 +25,6 @@ private:
 	bool m_inMenu = true;
 	bool m_shouldExit = false;
 
-	int m_currentLevel;
 	Photos m_photos{};
 	EventsHandler m_eventsHandler{};
 	PlayerEntity::Data m_playerData{};

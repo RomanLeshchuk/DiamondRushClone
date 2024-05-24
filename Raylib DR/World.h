@@ -6,7 +6,7 @@
 #include <array>
 #include <string>
 #include <iostream>
-#include <map>
+#include <queue>
 
 #include "data_types.h"
 #include "Entity.h"
@@ -16,6 +16,20 @@
 #include "Entities.h"
 
 class EventsHandler;
+
+enum class WorldSignal
+{
+	LOSE_LEVEL,
+	COMPLETE_LEVEL,
+	OPEN_CHEST_EMPTY,
+	OPEN_CHEST_D10,
+	OPEN_CHEST_D20,
+	OPEN_CHEST_D50,
+	OPEN_CHEST_H3,
+	OPEN_CHEST_H5,
+	OPEN_CHEST_H7,
+	GAME_EVENT
+};
 
 class World
 {
@@ -43,6 +57,10 @@ public:
 
 	void update();
 	void draw();
+
+	void setSignal(WorldSignal signal);
+	WorldSignal getSignal();
+	void resolveSignal();
 
 	Cell& getCell(const Coords& cellPos, bool fromCheckpoint = false);
 
@@ -81,9 +99,14 @@ private:
 
 	CheckpointData m_checkpointData{};
 
+	std::queue<WorldSignal> m_signals{};
+
 	Coords m_mapSize{};
 
 	Sidebar m_sidebar;
-	std::vector<Text> m_gameOver;
 	const Texture* m_background;
+
+	Text m_mainText;
+	Text m_bottomText;
+	std::vector<std::string> m_textsData;
 };

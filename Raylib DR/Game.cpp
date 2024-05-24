@@ -10,15 +10,14 @@
 #include "emscripten.h"
 #endif
 
-Game::Game(const std::string& windowTitle, int level) :
-    m_currentLevel{ level }
+Game::Game(const std::string& windowTitle)
 {
     static_assert(Options::MovesPerSecond < Options::FPS);
 
-	this->init(windowTitle, level);
+	this->init(windowTitle);
 }
 
-void Game::init(const std::string& windowTitle, int level)
+void Game::init(const std::string& windowTitle)
 {
     InitWindow(Options::WorldSize.x + Options::SidebarWidth, Options::WorldSize.y, windowTitle.c_str());
     m_eventsHandler = EventsHandler({ Options::SidebarWidth, 0 }, Options::WorldSize);
@@ -41,7 +40,8 @@ void Game::init(const std::string& windowTitle, int level)
 
 void Game::createWorld()
 {
-    m_photos = LevelsPhotos[m_currentLevel];
+    m_photos.clear();
+    m_photos = LevelsPhotos[m_playerData.level];
     m_menu->rebindPhotos(m_photos);
     m_world = std::make_unique<World>(
         m_photos,
@@ -64,25 +64,38 @@ void Game::mainloop()
     {
         m_eventsHandler.handleEvents();
 
-        if (m_world->player->getData().health == 0 && m_eventsHandler.enterEventSource)
+        if (m_world->getSignal() != WorldSignal::GAME_EVENT && m_eventsHandler.enterEventSource)
         {
-            m_world.reset();
-            m_menu->setState(Menu::State::MENU);
-            m_inMenu = true;
+            switch (m_world->getSignal())
+            {
+            case WorldSignal::LOSE_LEVEL:
+                m_world->resolveSignal();
+                m_world.reset();
+                m_menu->setState(Menu::State::MENU);
+                m_inMenu = true;
+                break;
+
+            case WorldSignal::COMPLETE_LEVEL:
+                m_world->resolveSignal();
+                m_playerData = m_world->player->getData();
+                m_world.reset();
+                m_playerData.level++;
+                m_menu->setPlayerData(m_playerData);
+                m_menu->setState(Menu::State::MENU);
+                m_inMenu = true;
+                break;
+
+            default:
+                m_world->resolveSignal();
+            }
         }
-        else if (m_world->player->getData().health == 0 && m_eventsHandler.enterEventSource)
-        {
-            m_world.reset();
-            m_menu->setState(Menu::State::MENU);
-            m_inMenu = true;
-        }
-        else if (m_eventsHandler.pauseEventSource)
+        else if (m_world->getSignal() == WorldSignal::GAME_EVENT && m_eventsHandler.pauseEventSource)
         {
             m_menu->setPlayerData(m_world->player->getData());
             m_menu->setState(Menu::State::PAUSE);
             m_inMenu = true;
         }
-        else if (m_world->currentFrame == 0)
+        else if (m_world->getSignal() == WorldSignal::GAME_EVENT && m_world->currentFrame == 0)
         {
             m_world->update();
         }
@@ -111,7 +124,6 @@ void Game::mainloop()
             break;
 
         case Menu::Signal::NEW_GAME:
-            m_currentLevel = 1;
             m_playerData = {};
             this->createWorld();
             m_inMenu = false;

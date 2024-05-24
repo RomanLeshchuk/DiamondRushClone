@@ -136,8 +136,7 @@ bool Photos::equalAnimations(const Photos::PreloadedAnimation* firstAnimation, c
 	return firstAnimation->animation.id == secondAnimation->animation.id;
 }
 
-
-Photos::~Photos()
+void Photos::clear() const
 {
 	for (const std::pair<const std::string, PreloadedTexture>& texture : m_preloadedTextures)
 	{
@@ -159,8 +158,14 @@ Photos::~Photos()
 		UnloadImage(simpleImage.second);
 	}
 
-	for (const std::pair<const std::string, Texture>& animationTexture : m_preloadedAnimationsTextures)
+	for (const std::pair<const std::string, PreloadedAnimation>& animation : m_preloadedAnimations)
 	{
-		UnloadTexture(animationTexture.second);
+		UnloadTexture(animation.second.animation);
 	}
+}
+
+
+Photos::~Photos()
+{
+	this->clear();
 }

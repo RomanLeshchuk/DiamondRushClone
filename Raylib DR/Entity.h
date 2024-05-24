@@ -3,16 +3,13 @@
 #include "raylib.h"
 
 #include <vector>
-#include <map>
 
 #include "data_types.h"
 #include "Photos.h"
 
-template <typename ...EntityClass>
-class RawWorld;
-class World;
-
 class Shadow;
+class World;
+enum class WorldSignal;
 
 class Entity
 {
@@ -20,10 +17,12 @@ public:
 	enum class Type
 	{
 		FINISH,
+		OPENED_CHEST,
 
 		WALL,
+		CHEST,
 		BUSH,
-
+		
 		ROCK,
 		DIAMOND,
 
@@ -94,7 +93,7 @@ public:
 protected:
 	virtual void calcDrawState();
 
-	Coords drawOffset{};
+	Pair<float> drawOffset{};
 
 	Pair<float> currentDrawableStretch = { 1.0f, 1.0f };
 	Pair<float> currentDrawableOffset = { 0.0f, 0.0f };
@@ -225,3 +224,7 @@ protected:
 	char currentRotationState = 0;
 	char rollDirection = 0;
 };
+
+/*
+* TODO different colors for chests treasures
+*/

@@ -88,7 +88,7 @@ DrawableEntity::DrawableEntity() = default;
 
 void DrawableEntity::calcDrawState()
 {
-	drawOffset =
+	drawOffset = 
 		(coords - world->viewportCoords + world->viewportSize) * world->cellSize
 		+ world->viewportMoveVec * world->pixelsPerMove * (world->framesPerMove - (world->currentFrame + 1));
 }
@@ -221,7 +221,7 @@ Entity* MovableEntity::getSolidEntityInOffsetCell(const Coords& offset)
 {
 	for (const std::unique_ptr<Entity>& entityPtr : world->getCell(coords + offset))
 	{
-		if (entityPtr->getType() > Entity::Type::FINISH && entityPtr->getType() < Entity::Type::BUSH_PARTICLES)
+		if (entityPtr->getType() >= Entity::Type::WALL && entityPtr->getType() <= Entity::Type::PLAYER)
 		{
 			return entityPtr.get();
 		}
@@ -263,7 +263,7 @@ Entity* SmoothlyMovableEntity::getSolidEntityInOffsetCell(const Coords& offset)
 
 	for (const std::unique_ptr<Entity>& entityPtr : world->getCell(coords + offset))
 	{
-		if (entityPtr->getType() > Entity::Type::FINISH && entityPtr->getType() < Entity::Type::BUSH_PARTICLES)
+		if (entityPtr->getType() >= Entity::Type::WALL && entityPtr->getType() <= Entity::Type::PLAYER)
 		{
 			if (entityPtr->getType() == Entity::Type::SHADOW)
 			{

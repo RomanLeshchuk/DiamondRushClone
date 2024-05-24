@@ -222,6 +222,12 @@ struct Pair
 		return Vector2{ (float)x, (float)y };
 	}
 
+	template <typename U>
+	constexpr operator Pair<U>() const
+	{
+		return Pair<U>{ (U)x, (U)y };
+	}
+
 	Pair& modThis()
 	{
 		x = std::abs(x);

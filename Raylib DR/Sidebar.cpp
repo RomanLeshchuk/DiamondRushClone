@@ -10,8 +10,9 @@ Sidebar::Sidebar(World* world) :
 {
 	const int defaultFontSize = m_size.y / 22;
 	m_texts.emplace_back("Progress", Coords{ m_size.x / 2, (int)(m_size.y / 15.0f) }, defaultFontSize, BLACK);
-	m_counters.emplace_back("Health", &m_player->getData().health, Coords{ m_size.x / 2, (int)(m_size.y / 2.0f) - defaultFontSize / 2 }, defaultFontSize, BLACK);
-	m_counters.emplace_back("Diamonds", &m_player->getData().diamondsCollected, Coords{ m_size.x / 2, (int)(m_size.y / 2.0f) + defaultFontSize / 2 }, defaultFontSize, BLACK);
+	m_counters.emplace_back("Health", &m_player->getData().health, Coords{ m_size.x / 2, (int)(m_size.y / 2.0f) - defaultFontSize }, defaultFontSize, BLACK);
+	m_counters.emplace_back("Diamonds", &m_player->getData().diamondsCollected, Coords{ m_size.x / 2, (int)(m_size.y / 2.0f) }, defaultFontSize, BLACK);
+	m_counters.emplace_back("Level", &m_player->getData().level, Coords{ m_size.x / 2, (int)(m_size.y / 2.0f) + defaultFontSize }, defaultFontSize, BLACK);
 }
 
 void Sidebar::draw()

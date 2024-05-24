@@ -12,17 +12,22 @@ PlayerEntity::PlayerEntity(const Coords& entityCoords, const Coords* moveEventSo
 	AnimatedEntity(nullptr),
 	MovableEntity(),
 	SmoothlyMovableEntity(),
-	m_moveEventSource{ moveEventSource }
+	m_moveEventSource{ moveEventSource },
+	m_data{ playerData }
 {
 	if (m_animationsList.empty())
 	{
 		m_animationsList = {
 			world->photos->getAnimation("player_calm"),
 			world->photos->getAnimation("player_push"),
-			world->photos->getAnimation("player_hold")
+			world->photos->getAnimation("player_hold"),
+			world->photos->getAnimation("player_climb"),
+			world->photos->getAnimation("player_calm_up"),
+			world->photos->getAnimation("player_descent"),
+			world->photos->getAnimation("player_calm_down")
 		};
 	}
-	currentAnimation = m_animationsList[(int)Animations::CALM];
+	currentAnimation = m_animationsList[(int)Animations::CALM_DOWN];
 }
 
 PlayerEntity* PlayerEntity::copyImpl() const
@@ -38,6 +43,11 @@ void PlayerEntity::changeDiamonds(int value)
 void PlayerEntity::changeHealth(int value)
 {
 	m_data.health = std::max(m_data.health + value, 0);
+
+	if (!m_data.health)
+	{
+		world->setSignal(WorldSignal::LOSE_LEVEL);
+	}
 }
 
 const PlayerEntity::Data& PlayerEntity::getData()
@@ -54,23 +64,54 @@ void PlayerEntity::calcUpdateState()
 {
 	this->SmoothlyMovableEntity::calcUpdateState();
 
+	auto setAnimationFromMovement = [&]() -> void
+	{
+		if (m_viewDirection == Movement<1>::NONE
+			&& (currentAnimation == m_animationsList[(int)Animations::CALM]
+				|| currentAnimation == m_animationsList[(int)Animations::CALM_UP]
+				|| currentAnimation == m_animationsList[(int)Animations::CALM_DOWN]))
+		{
+			return;
+		}
+		if (m_viewDirection.x)
+		{
+			this->setAnimation(m_animationsList[(int)Animations::CALM]);
+		}
+		else if (moveVec.y < 0)
+		{
+			this->setAnimation(m_animationsList[(int)Animations::CLIMBING]);
+		}
+		else if (moveVec.y > 0)
+		{
+			this->setAnimation(m_animationsList[(int)Animations::DESCENTING]);
+		}
+		else if (m_viewDirection.y < 0)
+		{
+			this->setAnimation(m_animationsList[(int)Animations::CALM_UP]);
+		}
+		else if (m_viewDirection.y > 0)
+		{
+			this->setAnimation(m_animationsList[(int)Animations::CALM_DOWN]);
+		}
+	};
+
+	if (!m_data.health)
+	{
+		world->setSignal(WorldSignal::LOSE_LEVEL);
+	}
+	else if (world->getCell(coords).find(Entity::Type::FINISH) != world->getCell(coords).end())
+	{
+		world->setSignal(WorldSignal::COMPLETE_LEVEL);
+	}
+
 	m_prevMoveVec = moveVec;
 	moveVec = *m_moveEventSource;
 
-	if (m_viewDirection != moveVec)
+	if (moveVec && m_viewDirection != moveVec)
 	{
 		m_viewDirection = moveVec;
 
-		if (m_viewDirection == Movement<1>::LEFT)
-		{
-			currentDrawableFlip.x = true;
-		}
-		else if (m_viewDirection == Movement<1>::RIGHT)
-		{
-			currentDrawableFlip.x = false;
-		}
-
-		if (m_prevMoveVec == Movement<1>::NONE)
+		if (!m_prevMoveVec)
 		{
 			moveVec = Movement<1>::NONE;
 			world->viewportMoveVec = Movement<1>::NONE;
@@ -83,10 +124,11 @@ void PlayerEntity::calcUpdateState()
 		Entity* solidEntity = this->getSolidEntityInOffsetCell(moveVec);
 
 		if (!solidEntity
-			|| (solidEntity->getType() == Entity::Type::BUSH || solidEntity->getType() == Entity::Type::DIAMOND || solidEntity->getType() == Entity::Type::SHADOW))
+			|| (solidEntity->getType() == Entity::Type::BUSH
+				|| solidEntity->getType() == Entity::Type::DIAMOND
+				|| solidEntity->getType() == Entity::Type::CHEST
+				|| solidEntity->getType() == Entity::Type::SHADOW))
 		{
-			this->setAnimation(m_animationsList[(int)Animations::CALM]);
-
 			do
 			{
 				if (solidEntity)
@@ -99,6 +141,16 @@ void PlayerEntity::calcUpdateState()
 					{
 						solidEntity->replace(std::make_unique<DiamondParticlesEntity>(solidEntity->coords));
 						m_data.diamondsCollected++;
+					}
+					else if (solidEntity->getType() == Entity::Type::CHEST)
+					{
+						dynamic_cast<ChestEntity*>(solidEntity)->open();
+
+						moveVec = Movement<1>::NONE;
+						world->viewportMoveVec = Movement<1>::NONE;
+						m_pushingTurn = 0;
+
+						break;
 					}
 					else if (solidEntity->getType() == Entity::Type::SHADOW)
 					{
@@ -121,7 +173,9 @@ void PlayerEntity::calcUpdateState()
 				this->move();
 
 				m_pushingTurn = 0;
-			} while (false);	
+			} while (false);
+
+			setAnimationFromMovement();
 		}
 		else if (moveVec.x != 0 && solidEntity)
 		{
@@ -153,11 +207,11 @@ void PlayerEntity::calcUpdateState()
 		}
 		else
 		{
-			this->setAnimation(m_animationsList[(int)Animations::CALM]);
-
 			moveVec = Movement<1>::NONE;
 			world->viewportMoveVec = Movement<1>::NONE;
 			m_pushingTurn = 0;
+
+			setAnimationFromMovement();
 		}
 	}
 	else
@@ -169,7 +223,21 @@ void PlayerEntity::calcUpdateState()
 		}
 		else
 		{
-			this->setAnimation(m_animationsList[(int)Animations::CALM]);
+			setAnimationFromMovement();
+		}
+	}
+
+	if (*m_moveEventSource)
+	{
+		if (m_viewDirection == Movement<1>::LEFT
+			&& (currentAnimation == m_animationsList[(int)Animations::CALM]
+				|| currentAnimation == m_animationsList[(int)Animations::PUSHING]))
+		{
+			currentDrawableFlip.x = true;
+		}
+		else
+		{
+			currentDrawableFlip.x = false;
 		}
 	}
 
@@ -395,4 +463,63 @@ FinishEntity::FinishEntity(const Coords& entityCoords) :
 FinishEntity* FinishEntity::copyImpl() const
 {
 	return new FinishEntity(*this);
+}
+
+ChestEntity::ChestEntity(const Coords& entityCoords, WorldSignal treasure) :
+	Entity(entityCoords, Entity::Type::CHEST),
+	DrawableEntity(),
+	TexturedEntity(world->photos->getTexture("chest")),
+	m_treasure{ treasure }
+{
+}
+
+void ChestEntity::open()
+{
+	switch (m_treasure)
+	{
+	case WorldSignal::OPEN_CHEST_D10:
+		world->player->changeDiamonds(10);
+		break;
+
+	case WorldSignal::OPEN_CHEST_D20:
+		world->player->changeDiamonds(20);
+		break;
+
+	case WorldSignal::OPEN_CHEST_D50:
+		world->player->changeDiamonds(50);
+		break;
+
+	case WorldSignal::OPEN_CHEST_H3:
+		world->player->changeHealth(3);
+		break;
+
+	case WorldSignal::OPEN_CHEST_H5:
+		world->player->changeHealth(5);
+		break;
+
+	case WorldSignal::OPEN_CHEST_H7:
+		world->player->changeHealth(7);
+		break;
+	}
+
+	world->setSignal(m_treasure);
+
+	this->replace(std::make_unique<OpenedChestEntity>(coords));
+}
+
+ChestEntity* ChestEntity::copyImpl() const
+{
+	return new ChestEntity(*this);
+}
+
+OpenedChestEntity::OpenedChestEntity(const Coords& entityCoords) :
+	Entity(entityCoords, Entity::Type::OPENED_CHEST),
+	DrawableEntity(),
+	TexturedEntity(world->photos->getTexture("chest_opened"))
+{
+}
+
+OpenedChestEntity* OpenedChestEntity::copyImpl() const
+{
+	return new OpenedChestEntity(*this);
 }

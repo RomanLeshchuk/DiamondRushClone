@@ -23,11 +23,20 @@ World::World(
 	pixelsPerMove{ cellSize / framesPerMove },
 	maxPlayerShift{ maxPlayerShift },
 	m_sidebar{},
-	m_gameOver{
-		{ "Game over", { sidebarWidth + windowSize.x / 2, windowSize.y / 2 }, windowSize.y / 10, WHITE },
-		{ "Press [Enter] or [Swipe Up] to go to menu", { sidebarWidth + windowSize.x / 2, windowSize.y / 2 + windowSize.y / 5 }, windowSize.y / 25, WHITE }
-	},
-	m_background{ photos->getSimpleTexture("background") }
+	m_background{ photos->getSimpleTexture("background") },
+	m_mainText{ "", { sidebarWidth + windowSize.x / 2, windowSize.y / 2 }, windowSize.y / 15, WHITE },
+	m_bottomText{ "Press [Enter] or [Swipe Up] to continue", { sidebarWidth + windowSize.x / 2, windowSize.y / 2 + windowSize.y / 5 }, windowSize.y / 35, WHITE },
+	m_textsData{
+		"Game over",
+		"Level completed!",
+		"The chest was empty",
+		"You found ten diamonds",
+		"You found twenty diamonds",
+		"You found fifty diamonds!",
+		"You received three HP",
+		"You received five HP",
+		"You received seven HP!"
+	}
 {
 	this->init(playerData);
 }
@@ -85,6 +94,10 @@ void World::init(const PlayerEntity::Data& playerData)
 			{
 				entity = std::make_unique<FinishEntity>(Coords{ x, y });
 			}
+			else if (color == Color{ 255, 127, 127, 255 })
+			{
+				entity = std::make_unique<ChestEntity>(Coords{ x, y }, WorldSignal::OPEN_CHEST_EMPTY);
+			}
 			else
 			{
 				m_matrix.emplace_back();
@@ -104,7 +117,7 @@ void World::init(const PlayerEntity::Data& playerData)
 
 void World::update()
 {
-	if (!player->getData().health)
+	if (getSignal() != WorldSignal::GAME_EVENT)
 	{
 		return;
 	}
@@ -152,16 +165,35 @@ void World::update()
 	}
 }
 
+void World::setSignal(WorldSignal signal)
+{
+	m_signals.push(signal);
+}
+
+WorldSignal World::getSignal()
+{
+	if (m_signals.empty())
+	{
+		return WorldSignal::GAME_EVENT;
+	}
+
+	return m_signals.front();
+}
+
+void World::resolveSignal()
+{
+	m_signals.pop();
+}
+
 void World::draw()
 {
-	if (!player->getData().health)
+	if (m_signals.size())
 	{
 		m_sidebar.draw();
 
-		for (const Text& text : m_gameOver)
-		{
-			text.draw();
-		}
+		m_mainText.text = m_textsData[(int)m_signals.front()];
+		m_mainText.draw();
+		m_bottomText.draw();
 		
 		return;
 	}

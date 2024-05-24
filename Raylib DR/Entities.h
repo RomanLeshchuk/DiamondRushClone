@@ -12,7 +12,11 @@ public:
 	{
 		CALM,
 		PUSHING,
-		HOLDING
+		HOLDING,
+		CLIMBING,
+		CALM_UP,
+		DESCENTING,
+		CALM_DOWN
 	};
 
 	struct Data
@@ -162,4 +166,41 @@ protected:
 	virtual FinishEntity* copyImpl() const override;
 };
 
-using EntitiesClassesList = std::tuple<PlayerEntity, Shadow, WallEntity, BushEntity, BushParticlesEntity, WallWayEntity, WallHiddenWayEntity, RockEntity, DiamondEntity, DiamondParticlesEntity, FinishEntity>;
+class ChestEntity final : public TexturedEntity
+{
+public:
+	ChestEntity(const Coords& entityCoords, WorldSignal treasure);
+
+	void open();
+
+protected:
+	virtual ChestEntity* copyImpl() const override;
+
+private:
+	WorldSignal m_treasure;
+};
+
+class OpenedChestEntity final : public TexturedEntity
+{
+public:
+	OpenedChestEntity(const Coords& entityCoords);
+
+protected:
+	virtual OpenedChestEntity* copyImpl() const override;
+};
+
+using EntitiesClassesList = std::tuple<
+	PlayerEntity,
+	Shadow,
+	WallEntity,
+	BushEntity,
+	BushParticlesEntity,
+	WallWayEntity,
+	WallHiddenWayEntity,
+	RockEntity,
+	DiamondEntity,
+	DiamondParticlesEntity,
+	FinishEntity,
+	ChestEntity,
+	OpenedChestEntity
+>;
